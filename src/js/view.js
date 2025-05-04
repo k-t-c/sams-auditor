@@ -1,3 +1,5 @@
+let chartInstance = null;
+
 function renderExtractedData(data) {
   const outputDiv = document.getElementById('output');
   outputDiv.innerHTML = '';
@@ -63,7 +65,13 @@ function renderPurchaseChart(data) {
   });
 
   const ctx = document.getElementById('purchaseChart').getContext('2d');
-  new Chart(ctx, {
+
+  // Clear previous chart if exists
+  if (chartInstance) {
+    chartInstance.destroy();
+  }
+
+  chartInstance = new Chart(ctx, {
     type: 'line',
     data: {
       labels: sortedDates,
