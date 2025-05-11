@@ -3,27 +3,23 @@
     <head>
         <meta charset="UTF-8">
         <title>CSV Upload and Analyze</title>
-        <style>
-            body { font-family: Arial, sans-serif; margin: 20px; }
-            table { border-collapse: collapse; width: 100%; margin-top: 20px; }
-            th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-            th { background-color: #f2f2f2; }
-            select#itemSelector {
-                margin-top: 10px;
-                margin-bottom: 10px;
-                display: block;
-            }
-
-        </style>
     </head>
     <body>
 
-        <h1>Upload CSV and Analyze Purchases</h1>
-        <input type="file" id="csvUpload" accept=".csv" />
-        <br>
-        <canvas id="purchaseChart" width="800" height="400"></canvas>
-
-        <div id="output"></div>
+        <nav class="tab-bar">
+            <button class="tab-button active" data-tab="uploadView">Upload</button>
+            <button class="tab-button" data-tab="arsenalView">Arsenal</button>
+        </nav>
+    
+        <div id="uploadView" class="tab-content active">
+            <h1>Upload CSV and Analyze Purchases</h1>
+            <input type="file" id="csvUpload" accept=".csv" />
+        </div>
+    
+        <div id="arsenalView" class="tab-content">
+            <canvas id="purchaseChart" width="800" height="400"></canvas>
+            <div id="output"></div>
+        </div>
 
         <!-- 
         Disabled to avoid CORS errors while developing and testing
@@ -39,6 +35,7 @@
         <script src="./js/model.js"></script>
         <script src="./js/view.js"></script>
         <script src="./js/controller.js"></script>
+        <link rel="stylesheet" href="./css/styles.css" />
 
     </body>
 </html>

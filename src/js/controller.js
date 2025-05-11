@@ -1,16 +1,27 @@
 function populateItemDropdown() {
-  const select = document.createElement('select');
-  select.id = 'itemSelector';
+  const arsenalView = document.getElementById("arsenalView");
+  if (!arsenalView) return;
 
-  ITEM_TYPES.forEach(item => {
-    const option = document.createElement('option');
-    option.value = item;
-    option.textContent = item;
-    select.appendChild(option);
-  });
+  // Remove old selector if it exists
+  const oldSelector = document.getElementById("itemSelector");
+  if (oldSelector) {
+      oldSelector.remove();
+  }
 
-  document.body.insertBefore(select, document.getElementById('csvUpload').nextSibling);
+  const selector = document.createElement("select");
+  selector.id = "itemSelector";
+
+  for (const item of ITEM_TYPES) {
+      const option = document.createElement("option");
+      option.value = item;
+      option.textContent = item;
+      selector.appendChild(option);
+  }
+
+  // Insert at the top of the arsenal view
+  arsenalView.insertBefore(selector, arsenalView.firstChild);
 }
+
 
 function processCSV(file, selectedItem) {
   Papa.parse(file, {
@@ -42,3 +53,21 @@ document.getElementById('csvUpload').addEventListener('change', function (e) {
 });
 
 window.addEventListener('DOMContentLoaded', populateItemDropdown);
+
+document.addEventListener("DOMContentLoaded", () => {
+  const tabButtons = document.querySelectorAll(".tab-button");
+  const tabContents = document.querySelectorAll(".tab-content");
+
+  tabButtons.forEach(button => {
+      button.addEventListener("click", () => {
+          const target = button.dataset.tab;
+
+          tabButtons.forEach(btn => btn.classList.remove("active"));
+          button.classList.add("active");
+
+          tabContents.forEach(content => {
+              content.classList.toggle("active", content.id === target);
+          });
+      });
+  });
+});
