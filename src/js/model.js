@@ -29,15 +29,15 @@ class Transaction {
 class ArsenalTransaction extends Transaction {
   constructor(row) {
     super(row);
-    const regex = /(\d+)x(\w+)\s+by\s+(.+?)\((\d+)\)/;
+    const regex = /(\d+)x(.+?)\s+by\s+(.+?)\((\d+)\)/;
     const match = row.description.match(regex);
     if (match && match.length > 4) {
       // console.log("arsenal purchase match >", match);
       this.quantity = parseInt(match[1] || 0);
-      this.item = match[2] || "";
+      this.itemName = match[2] || "";
       this.initiatorName = match[3] && match[3].trim() || "";
       this.initiatorID = parseInt(match[4] || 0);
-      console.log("final arsenal obj >", this);
+      // console.log("final arsenal obj >", this);
     }
   }
 }
@@ -50,7 +50,7 @@ class SalaryTransaction extends Transaction {
       // console.log("salary match >", match);
       this.initiatorName = match[1] || "";
       this.initiatorID = parseInt(match[2] || 0);
-      console.log("final salary obj >", this);
+      // console.log("final salary obj >", this);
     } 
   }
 }
@@ -60,19 +60,28 @@ class InvoiceTransaction extends Transaction {
     const regex = /charging (.+?)\. (None|Silver|Gold|Platinum) Insurance\. Reference number (\d+)/;
     const match = row.description.match(regex);
     if (match) {
-      console.log("invoice match >", match);
+      // console.log("invoice match >", match);
       this.insuranceLevel = match[2] || "";
       this.invoiceNumber = parseInt(match[3] || 0);
-      console.log("final invoice obj >", this);
+      // console.log("final invoice obj >", this);
     }
   }
 }
 
-/**
- * @param item instance of item
- * @param buyer instance of buyer
- * @param raw original row
- */
+class CheckTransaction extends Transaction {
+  constructor(row) {
+    super(row);
+    const regex = /by (.+?)\((\d+)\) for (\d+)\((.+?)\)\. Reason: (.+)/;
+    const match = row.description.match(regex);
+    if (match && match.length > 5) {
+      this.initiatorName = match[1] || "";
+      this.initiatorID = parseInt(match[2] || 0);
+      this.recipientID = parseInt(match[3] || 0);
+      this.recipientName = match[4] || "";
+      this.reason = match[5] || 0;
+    }
+  }
+}
 class Purchase {
   constructor({ quantity, item, buyer, date, raw }) {
     this.quantity = quantity;
@@ -83,41 +92,38 @@ class Purchase {
   }
 }
 
-class Buyer {
-  constructor(name) {
+class Initiator {
+  constructor(name, id) {
     this.name = name;
-    this.purchases = [];
+    this.id = id;
+    this.transactions = [];
   }
 
-  add(purchase) {
-    this.purchases.push(purchase);
-  }
-
-  totalQuantity() {
-    return this.purchases.reduce((sum, p) => sum + p.quantity, 0);
-  }
+  addTransaction(transaction) {
+    this.transactions.push(transaction);
+  }  
 }
 
 class Item {
   constructor(name) {
     this.name = name;
-    this.purchases = [];
+    this.transactions = [];
+    this.totalCost = 0;
   }
 
-  add(purchase) {
-    this.purchases.push(purchase);
+  add(transaction) {
+    this.transactions.push(transaction);
+    this.totalCost += transaction.amount;
   }
 
-  totalQuantity() {
-    return this.purchases.reduce((sum, p) => sum + p.quantity, 0);
-  }
 }
 
 let transactions = [];  // All Transaction objects go here
-let initiatorsByID = new Map();  // To support quick lookups
-let itemsByName = new Map();
+let initiatorsByID = {};  // To support quick lookups
+let itemsByName = {};
 let transactionsByType = {
   arsenal: [],
+  check:[],
   deposit: [],
   invoice: [],
   payment: [],
@@ -130,6 +136,11 @@ let transactionsByType = {
 
 function parseRow(row) {
   let transaction;
+  let item;
+  let initiator;
+  let initiatorName;
+  let initiatorID;
+
   switch (row.action) {
     case "deposit":
       transaction = new Transaction(row);
@@ -139,41 +150,16 @@ function parseRow(row) {
         if (row.doneBy === "Arsenal Purchase") {
           transaction = new ArsenalTransaction(row);
           transactionsByType.arsenal.push(transaction);
-      
-         /*  const item = transaction.item;
-          const buyerID = transaction.initiatorID;
-      
-          if (!itemsByName[item]) {
-            itemsByName[item] = {
-              totalBought: 0,
-              totalCost: 0,
-              buyers: new Map()
-            };
-          }
-      
-          itemsByName[item].totalBought += transaction.quantity;
-          itemsByName[item].totalCost += transaction.amount;
-      
-          const buyersMap = itemsByName[item].buyers;
-          if (!buyersMap.has(buyerID)) {
-            buyersMap.set(buyerID, {
-              totalBought: 0,
-              timestamps: [],
-              dates: []
-            });
-          }
-      
-          const buyerData = buyersMap.get(buyerID);
-          buyerData.totalBought += transaction.quantity;
-          buyerData.timestamps.push(transaction.timestamp);
-          buyerData.dates.push(transaction.dateObj); */
-      
           break;
         }
-      
         if (row.doneBy === "State Clerk" && row.description.includes("Salary")) {
           transaction = new SalaryTransaction(row);
           transactionsByType.salary.push(transaction);
+          break;
+        }
+        if(row.description.includes("Check payment by")) {
+          transaction = new CheckTransaction(row);
+          transactionsByType.check.push(transaction);
           break;
         }
       
@@ -204,14 +190,34 @@ function parseRow(row) {
   
   transactions.push(transaction);
 
-  if (initiatorsByID[transaction.initiatorID]) {
-    initiatorsByID[transaction.initiatorID].transactions.push(transaction);
+  // handle person
+  
+  initiatorName = transaction.initiatorName;
+  initiatorID = transaction.initiatorID;
+  if (!initiatorsByID[initiatorID]) {
+    initiator = new Initiator(initiatorName, initiatorID);
+    initiator.addTransaction(transaction);
+    initiatorsByID[initiatorID] = initiator;
   }
   else {
-    initiatorsByID[transaction.initiatorID] = {
-      transactions: [transaction]
-    };
+    initiator = initiatorsByID[initiatorID];
+    initiator.addTransaction(transaction);
   }
+
+  // handle item
+  if (row.doneBy === "Arsenal Purchase") {
+    let itemName = transaction.itemName;
+    if(!itemsByName[itemName]) {
+      item = new Item(itemName);
+      item.add(transaction);
+      itemsByName[itemName] = item;
+    }
+    else {
+      item = itemsByName[itemName];
+      item.add(transaction);
+    }
+  }
+
 }
 
 function analyzeRow(row, selectedItem) {
