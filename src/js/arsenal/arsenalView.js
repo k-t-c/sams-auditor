@@ -1,11 +1,11 @@
 let chartInstance = null;
 
 function renderExtractedData(data) {
-  const outputDiv = document.getElementById("output");
-  outputDiv.innerHTML = "";
+  const arsenalTableDiv = document.getElementById("arsenalTable");
+  arsenalTableDiv.innerHTML = "";
 
   if (data.length === 0) {
-    outputDiv.textContent = "No matching purchases found.";
+    arsenalTableDiv.textContent = "No matching purchases found.";
     return;
   }
 
@@ -30,7 +30,7 @@ function renderExtractedData(data) {
     table.appendChild(tr);
   });
 
-  outputDiv.appendChild(table);
+  arsenalTableDiv.appendChild(table);
 }
 
 function renderPurchaseChart(data, chartType = "line") {

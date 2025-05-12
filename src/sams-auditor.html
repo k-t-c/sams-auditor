@@ -1,49 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>CSV Upload and Analyze</title>
-    </head>
-    <body>
+  <head>
+    <meta charset="UTF-8" />
+    <title>CSV Upload and Analyze</title>
+  </head>
+  <body>
+    <nav class="tab-bar">
+      <button class="tab-button active" data-tab="uploadView">Upload</button>
+      <button class="tab-button" data-tab="arsenalView">Arsenal</button>
+    </nav>
 
-        <nav class="tab-bar">
-            <button class="tab-button active" data-tab="uploadView">Upload</button>
-            <button class="tab-button" data-tab="arsenalView">Arsenal</button>
-        </nav>
-    
-        <div id="uploadView" class="tab-content active">
-            <h1>Upload CSV and Analyze Purchases</h1>
-            <input type="file" id="csvUpload" accept=".csv" />
-        </div>
-    
-        <div id="arsenalView" class="tab-content">
-            <label for="chartType">Chart Type:</label>
-            <select id="chartType">
-                <option value="bar">Bar</option>
-                <option value="line">Line</option>
-            </select>
-        
-            <div class="chart-container">
-                <canvas id="purchaseChart"></canvas>
-            </div>              
-            <div id="output"></div>
-        </div>
+    <div id="uploadView" class="tab-content active">
+      <h1>Upload CSV and Analyze Purchases</h1>
+      <input type="file" id="csvUpload" accept=".csv" />
+    </div>
 
-        <!-- 
+    <div id="arsenalView" class="tab-content">
+      <label for="itemSelector">Item:</label>
+      <select id="itemSelector"></select>
+
+      <label for="arsenalChartType">Chart Type:</label>
+      <select id="arsenalChartType">
+        <option value="bar">Bar</option>
+        <option value="line">Line</option>
+      </select>
+
+      <label for="tableViewMode">Table View:</label>
+      <select id="tableViewMode">
+        <option value="flat">By Timestamp</option>
+        <option value="grouped">Grouped by Initiator</option>
+      </select>
+      <label for="buyerSelector">Buyer:</label>
+      <select id="buyerSelector">
+        <option value="All Buyers">All Buyers</option>
+      </select>
+
+      <div class="chart-container">
+        <canvas id="purchaseChart"></canvas>
+      </div>
+      <div id="arsenalTable"></div>
+    </div>
+
+    <!-- 
         Disabled to avoid CORS errors while developing and testing
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
         -->
 
-        <!-- local copies for local developing and testing -->
-        <script src="./js/chart.js"></script>
-        <script src="./js/papaparse.min.js"></script>
-        
-        <script src="./js/items.js"></script> <!-- item definitions -->
-        <script src="./js/arsenal/arsenalModel.js"></script>
-        <script src="./js/arsenal/arsenalView.js"></script>
-        <script src="./js/arsenal/arsenalController.js"></script>
-        <link rel="stylesheet" href="./css/styles.css" />
+    <!-- local copies for local developing and testing -->
+    <script src="./js/chart.js"></script>
+    <script src="./js/papaparse.min.js"></script>
 
-    </body>
+    <!-- item definitions -->
+    <script src="./js/items.js"></script>
+
+    <!-- Arsenal JS files -->
+    <script src="./js/arsenal/arsenalModel.js"></script>
+    <script src="./js/arsenal/arsenalView.js"></script>
+    <script src="./js/arsenal/arsenalController.js"></script>
+    <link rel="stylesheet" href="./css/styles.css" />
+  </body>
 </html>

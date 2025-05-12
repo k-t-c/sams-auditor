@@ -24,7 +24,7 @@ function populateItemDropdown() {
 
 
 function processCSV(file, selectedItem) {
-  let chartType = document.getElementById("chartType").value || "bar";
+  let arsenalChartType = document.getElementById("arsenalChartType").value || "bar";
   Papa.parse(file, {
     header: true,
     skipEmptyLines: true,
@@ -35,7 +35,7 @@ function processCSV(file, selectedItem) {
       localStorage.setItem('extractedData', JSON.stringify(extractedData));
 
       renderExtractedData(window.extractedData);
-      renderPurchaseChart(window.extractedData, chartType);
+      renderPurchaseChart(window.extractedData, arsenalChartType);
     }
   });
 }
@@ -51,9 +51,9 @@ document.getElementById('csvUpload').addEventListener('change', function (e) {
   document.getElementById('itemSelector').onchange = () => {
     processCSV(file, document.getElementById('itemSelector').value);
   };
-  document.getElementById("chartType").addEventListener ("change", function(e) {
-    const chartType = document.getElementById("chartType")?.value || "bar";
-    renderPurchaseChart(window.extractedData, chartType);
+  document.getElementById("arsenalChartType").addEventListener ("change", function(e) {
+    const arsenalChartType = document.getElementById("arsenalChartType")?.value || "bar";
+    renderPurchaseChart(window.extractedData, arsenalChartType);
   });
 });
 
