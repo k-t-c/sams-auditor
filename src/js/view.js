@@ -66,6 +66,7 @@ function renderPurchaseChart(data, chartType = "line") {
         ],
       },
       options: {
+        maintainAspectRatio: false,
         responsive: true,
         plugins: {
           title: {
@@ -129,6 +130,7 @@ function renderPurchaseChart(data, chartType = "line") {
         datasets: datasets,
       },
       options: {
+        maintainAspectRatio: false,
         responsive: true,
         plugins: {
           title: {
