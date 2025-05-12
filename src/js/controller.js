@@ -24,17 +24,18 @@ function populateItemDropdown() {
 
 
 function processCSV(file, selectedItem) {
+  let chartType = document.getElementById("chartType").value || "bar";
   Papa.parse(file, {
     header: true,
     skipEmptyLines: true,
     complete: function (results) {
       const parsedData = results.data;
-      const extractedData = parsedData.map(row => analyzeRow(row, selectedItem)).filter(Boolean);
+      window.extractedData = parsedData.map(row => analyzeRow(row, selectedItem)).filter(Boolean);
 
       localStorage.setItem('extractedData', JSON.stringify(extractedData));
 
-      renderExtractedData(extractedData);
-      renderPurchaseChart(extractedData);
+      renderExtractedData(window.extractedData);
+      renderPurchaseChart(window.extractedData, chartType);
     }
   });
 }
@@ -50,6 +51,10 @@ document.getElementById('csvUpload').addEventListener('change', function (e) {
   document.getElementById('itemSelector').onchange = () => {
     processCSV(file, document.getElementById('itemSelector').value);
   };
+  document.getElementById("chartType").addEventListener ("change", function(e) {
+    const chartType = document.getElementById("chartType")?.value || "bar";
+    renderPurchaseChart(window.extractedData, chartType);
+  });
 });
 
 window.addEventListener('DOMContentLoaded', populateItemDropdown);
