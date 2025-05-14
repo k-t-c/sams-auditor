@@ -4,6 +4,7 @@ function checkPurchaseViolationsGroupedByInitiator(initiators, ITEM_DEFINITIONS)
   for (const initiator of initiators) {
     const itemTimestampsMap = {};
     const initiatorViolations = [];
+    const usedTimestamps = new Set(); // <-- to skip already-violated txs in rateNum
 
     for (const tx of initiator.transactions) {
       if (!(tx instanceof ArsenalTransaction)) continue;
@@ -25,6 +26,7 @@ function checkPurchaseViolationsGroupedByInitiator(initiators, ITEM_DEFINITIONS)
           timestamps: [doneAt],
           description: `Bought ${quantity}x ${itemName} in one transaction (limit: ${numAtOnce})`,
         });
+        usedTimestamps.add(doneAt); // mark it to skip in rateNum
       }
 
       if (!itemTimestampsMap[itemName]) {
@@ -45,29 +47,43 @@ function checkPurchaseViolationsGroupedByInitiator(initiators, ITEM_DEFINITIONS)
       let cumulativeQty = 0;
 
       for (let i = 0; i < entries.length; i++) {
-        const { timestamp, quantity } = entries[i];
+        const { timestamp, quantity, doneAt } = entries[i];
+
+        if (usedTimestamps.has(doneAt)) continue;
+
         cumulativeQty += quantity;
 
         while (timestamp - entries[windowStart].timestamp > rateInterval) {
-          cumulativeQty -= entries[windowStart].quantity;
+          if (!usedTimestamps.has(entries[windowStart].doneAt)) {
+            cumulativeQty -= entries[windowStart].quantity;
+          }
           windowStart++;
         }
 
-        if (cumulativeQty > rateNum) {
-          const timestampsInWindow = entries
-            .slice(windowStart, i + 1)
-            .map(e => e.doneAt);
+        const timestampsInWindow = entries
+          .slice(windowStart, i + 1)
+          .filter(e => !usedTimestamps.has(e.doneAt))
+          .map(e => e.doneAt);
 
+        const totalInWindow = entries
+          .slice(windowStart, i + 1)
+          .filter(e => !usedTimestamps.has(e.doneAt))
+          .reduce((sum, e) => sum + e.quantity, 0);
+
+        if (totalInWindow > rateNum) {
           initiatorViolations.push({
             type: "rateNum",
             itemName,
-            quantityWindow: cumulativeQty,
+            quantityWindow: totalInWindow,
             allowed: rateNum,
             windowStart: entries[windowStart].timestamp,
             windowEnd: timestamp,
             timestamps: timestampsInWindow,
-            description: `Bought ${cumulativeQty}x ${itemName} within ${rateInterval / 1000}s (limit: ${rateNum})`,
+            description: `Bought ${totalInWindow}x ${itemName} within ${rateInterval / 1000}s (limit: ${rateNum})`,
           });
+
+          // Optionally mark all involved as used — uncomment below if you want stricter filtering
+          // timestampsInWindow.forEach(t => usedTimestamps.add(t));
         }
       }
     }
@@ -82,6 +98,7 @@ function checkPurchaseViolationsGroupedByInitiator(initiators, ITEM_DEFINITIONS)
 
   return result;
 }
+
 
 
 function reportViolations () {
