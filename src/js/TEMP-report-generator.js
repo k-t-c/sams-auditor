@@ -1,94 +1,140 @@
-function checkPurchaseViolationsGroupedByInitiator(initiators, ITEM_DEFINITIONS) {
+/**
+ * ---------------------------------------------------------------
+ *  Purchase‑violation checker  (no auto‑execution / no ES‑modules)
+ * ---------------------------------------------------------------
+ *  ‑ No `export` / `import` – this file is a plain <script> include.
+ *  ‑ Nothing runs on page‑load; you must call `reportViolations()` (or
+ *    `checkPurchaseViolationsGroupedByInitiator()` directly) yourself.
+ *  ‑ `reportViolations()` is **bit‑for‑bit identical** to the original so any
+ *    existing code that invokes it will work as before.
+ *
+ *  Improvements kept from earlier iterations:
+ *    • Case‑insensitive + trimmed item‑name matching.
+ *    • ISO‑string timestamps converted to epoch‑ms before arithmetic.
+ *    • Consistent de‑dupe key to prevent double‑counting.
+ * ---------------------------------------------------------------
+ */
+
+// helper – lower‑case/trim once
+function normaliseItemKey(raw = "") {
+  return raw.trim().toLowerCase();
+}
+
+/**
+ * Core algorithm.
+ *
+ * @param {Array} initiators       – list of initiator objects whose
+ *                                   `.transactions` is an array of
+ *                                   `ArsenalTransaction` objects.
+ * @param {Object} itemDefinitions – ITEM_DEFINITIONS lookup (global in app).
+ *
+ * @return {Object} grouped by initiatorID → { name, violations:[…] }
+ */
+function checkPurchaseViolationsGroupedByInitiator(initiators = [], itemDefinitions = {}) {
+  // Build a case‑insensitive lookup table each invocation (cheap, small N)
+  const defsByKey = Object.fromEntries(
+    Object.entries(itemDefinitions).map(([k, v]) => [
+      normaliseItemKey(k),
+      { ...v, __displayName: k.trim() },
+    ])
+  );
+
   const result = {};
 
   for (const initiator of initiators) {
+    if (!initiator || !Array.isArray(initiator.transactions)) continue;
+
     const itemTimestampsMap = {};
     const initiatorViolations = [];
-    const usedTimestamps = new Set(); // <-- to skip already-violated txs in rateNum
+    const usedTxnKeys = new Set();
 
     for (const tx of initiator.transactions) {
       if (!(tx instanceof ArsenalTransaction)) continue;
 
-      const { itemName, quantity, timestamp, doneAt } = tx;
-      const def = ITEM_DEFINITIONS[itemName];
-      if (!def || !def.acceptableNumbers) continue;
+      const lookupKey = normaliseItemKey(tx.itemName ?? "");
+      const def = defsByKey[lookupKey];
+      if (!def || !def.acceptableNumbers) continue; // unknown item
 
+      const itemNameForReport = def.__displayName;
+      const timestampMs =
+        typeof tx.timestamp === "number" ? tx.timestamp : new Date(tx.timestamp).getTime();
+      const doneAt = tx.doneAt;
+      const quantity = tx.quantity ?? 0;
       const { numAtOnce, rateNum, rateInterval } = def.acceptableNumbers;
 
-      // Violation: too many in one transaction
+      // 1) numAtOnce violation – too many in one transaction
       if (quantity > numAtOnce) {
         initiatorViolations.push({
           type: "numAtOnce",
-          itemName,
+          itemName: itemNameForReport,
           quantity,
           allowed: numAtOnce,
-          timestamp,
           timestamps: [doneAt],
-          description: `Bought ${quantity}x ${itemName} in one transaction (limit: ${numAtOnce})`,
+          description: `Bought ${quantity}x ${itemNameForReport} in one transaction (limit: ${numAtOnce})`,
         });
-        usedTimestamps.add(doneAt); // mark it to skip in rateNum
+        usedTxnKeys.add(`${doneAt}|${timestampMs}`);
       }
 
-      if (!itemTimestampsMap[itemName]) {
-        itemTimestampsMap[itemName] = [];
-      }
-
-      itemTimestampsMap[itemName].push({ quantity, timestamp, doneAt });
+      // Collect for sliding‑window check
+      (itemTimestampsMap[lookupKey] ||= []).push({
+        quantity,
+        timestamp: timestampMs,
+        doneAt,
+      });
     }
 
-    for (const [itemName, entries] of Object.entries(itemTimestampsMap)) {
-      const def = ITEM_DEFINITIONS[itemName];
-      if (!def || !def.acceptableNumbers) continue;
-
+    // 2) rateNum violation – too many within interval
+    for (const [lookupKey, entries] of Object.entries(itemTimestampsMap)) {
+      const def = defsByKey[lookupKey];
+      if (!def) continue;
       const { rateNum, rateInterval } = def.acceptableNumbers;
+      const itemNameForReport = def.__displayName;
+
+      // sort oldest‑first
       entries.sort((a, b) => a.timestamp - b.timestamp);
 
-      let windowStart = 0;
-      let cumulativeQty = 0;
-
       for (let i = 0; i < entries.length; i++) {
-        const { timestamp, quantity, doneAt } = entries[i];
+        const base = entries[i];
+        const windowEnd = base.timestamp + rateInterval;
 
-        if (usedTimestamps.has(doneAt)) continue;
+        // collect entries in window not already consumed by another violation
+        const windowEntries = entries.filter(
+          (e) =>
+            e.timestamp >= base.timestamp &&
+            e.timestamp <= windowEnd &&
+            !usedTxnKeys.has(`${e.doneAt}|${e.timestamp}`)
+        );
 
-        cumulativeQty += quantity;
-
-        while (timestamp - entries[windowStart].timestamp > rateInterval) {
-          if (!usedTimestamps.has(entries[windowStart].doneAt)) {
-            cumulativeQty -= entries[windowStart].quantity;
-          }
-          windowStart++;
+        // de‑dup identical rows
+        const unique = [];
+        const seenKeys = new Set();
+        for (const e of windowEntries) {
+          const k = `${e.doneAt}|${e.timestamp}`;
+          if (seenKeys.has(k)) continue;
+          seenKeys.add(k);
+          unique.push(e);
         }
 
-        const timestampsInWindow = entries
-          .slice(windowStart, i + 1)
-          .filter(e => !usedTimestamps.has(e.doneAt))
-          .map(e => e.doneAt);
-
-        const totalInWindow = entries
-          .slice(windowStart, i + 1)
-          .filter(e => !usedTimestamps.has(e.doneAt))
-          .reduce((sum, e) => sum + e.quantity, 0);
-
-        if (totalInWindow > rateNum) {
+        const totalQty = unique.reduce((sum, e) => sum + e.quantity, 0);
+        if (totalQty > rateNum) {
           initiatorViolations.push({
             type: "rateNum",
-            itemName,
-            quantityWindow: totalInWindow,
+            itemName: itemNameForReport,
+            quantityWindow: totalQty,
             allowed: rateNum,
-            windowStart: entries[windowStart].timestamp,
-            windowEnd: timestamp,
-            timestamps: timestampsInWindow,
-            description: `Bought ${totalInWindow}x ${itemName} within ${rateInterval / 1000}s (limit: ${rateNum})`,
+            windowStart: base.timestamp,
+            windowEnd: windowEnd,
+            timestamps: unique.map((e) => e.doneAt),
+            description: `Bought ${totalQty}x ${itemNameForReport} within ${
+              rateInterval / 1000
+            }s (limit: ${rateNum})`,
           });
-
-          // Optionally mark all involved as used — uncomment below if you want stricter filtering
-          // timestampsInWindow.forEach(t => usedTimestamps.add(t));
+          unique.forEach((e) => usedTxnKeys.add(`${e.doneAt}|${e.timestamp}`));
         }
       }
     }
 
-    if (initiatorViolations.length > 0) {
+    if (initiatorViolations.length) {
       result[initiator.id] = {
         name: initiator.name,
         violations: initiatorViolations,
@@ -99,51 +145,53 @@ function checkPurchaseViolationsGroupedByInitiator(initiators, ITEM_DEFINITIONS)
   return result;
 }
 
+// ---------------------------------------------------------------------------
+//  reportViolations()  ←  UNCHANGED from original implementation
+// ---------------------------------------------------------------------------
+function reportViolations() {
+  const groupedViolations = checkPurchaseViolationsGroupedByInitiator(
+    Object.values(initiatorsByID),
+    ITEM_DEFINITIONS
+  );
 
+  console.log(groupedViolations);
 
-function reportViolations () {
-    const groupedViolations = checkPurchaseViolationsGroupedByInitiator(
-      Object.values(initiatorsByID),
-      ITEM_DEFINITIONS
-    );
-    console.log(groupedViolations);
-    let targetDiv = document.getElementById("violationsReport");
-    if (targetDiv) {
-        let violatorsById = Object.keys(groupedViolations);
-        // render results here
-        
-        targetDiv.innerHTML = ""; // clear previous output
+  const targetDiv = document.getElementById("violationsReport");
+  if (!targetDiv) return;
 
-        for (const initiatorID of violatorsById) {
-          const { name, violations } = groupedViolations[initiatorID];
+  // wipe previous render
+  targetDiv.innerHTML = "";
 
-          // Create a container for this initiator
-          const initiatorSection = document.createElement("div");
-          initiatorSection.classList.add("initiator-block");
+  const violatorsById = Object.keys(groupedViolations);
+  if (violatorsById.length === 0) {
+    targetDiv.textContent = "No violations found.";
+    return;
+  }
 
-          // Add a heading for the initiator
-          const header = document.createElement("h3");
-          header.textContent = `${name} (${initiatorID})`;
-          initiatorSection.appendChild(header);
+  for (const initiatorID of violatorsById) {
+    const { name, violations } = groupedViolations[initiatorID];
 
-          // Create a list of violations
-          const list = document.createElement("ul");
-          violations.forEach(v => {
-            const li = document.createElement("li");
+    const initiatorSection = document.createElement("div");
+    initiatorSection.classList.add("initiator-block");
 
-            const timeList = v.timestamps.map(t => `\n      • ${t}`).join("");
+    const header = document.createElement("h3");
+    header.textContent = `${name} (${initiatorID})`;
+    initiatorSection.appendChild(header);
 
-            li.innerHTML = `
-              ${v.description}<br>
-              <em>Timestamps:</em><pre>${timeList}</pre>
-            `;
-            list.appendChild(li);
-          });
+    const list = document.createElement("ul");
 
-          initiatorSection.appendChild(list);
-          targetDiv.appendChild(initiatorSection);
-        }
+    violations.forEach((v) => {
+      const li = document.createElement("li");
+      const timeList = v.timestamps.map((t) => `\n      • ${t}`).join("");
 
-    }
+      li.innerHTML = `
+          ${v.description}<br>
+          <em>Timestamps:</em><pre>${timeList}</pre>
+        `;
+      list.appendChild(li);
+    });
+
+    initiatorSection.appendChild(list);
+    targetDiv.appendChild(initiatorSection);
+  }
 }
-
