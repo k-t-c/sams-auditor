@@ -3,13 +3,13 @@ function populateItemDropdown() {
   if (!arsenalView) return;
 
   // Remove old selector if it exists
-  const oldSelector = document.getElementById("itemSelector");
+  const oldSelector = document.getElementById("arsenalItemSelector");
   if (oldSelector) {
       oldSelector.remove();
   }
 
   const selector = document.createElement("select");
-  selector.id = "itemSelector";
+  selector.id = "arsenalItemSelector";
 
   for (const item of ITEM_TYPES) {
       const option = document.createElement("option");

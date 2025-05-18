@@ -1,5 +1,4 @@
 function uploadProcessCSV(file, selectedItem) {
-    let arsenalChartType = document.getElementById("arsenalChartType").value || "bar";
     Papa.parse(file, {
       header: true,
       skipEmptyLines: true,
@@ -16,17 +15,17 @@ function uploadProcessCSV(file, selectedItem) {
     const file = e.target.files[0];
     if (!file) return;
   
-    const selectedItem = document.getElementById('itemSelector').value;
+    const selectedItem = document.getElementById('arsenalItemSelector').value;
     uploadProcessCSV(file, selectedItem);
   
     // Reattach onchange listener to dropdown in case user wants to re-filter
-    document.getElementById('itemSelector').onchange = () => {
-      const selectedItem = document.getElementById('itemSelector').value || "";
+    document.getElementById('arsenalItemSelector').onchange = () => {
+      const selectedItem = document.getElementById('arsenalItemSelector').value || "";
       const arsenalChartType = document.getElementById("arsenalChartType")?.value || "bar";
       arsenalProcessSelection(selectedItem, arsenalChartType);
     };
     document.getElementById("arsenalChartType").addEventListener ("change", function(e) {
-      const selectedItem = document.getElementById('itemSelector').value || "";
+      const selectedItem = document.getElementById('arsenalItemSelector').value || "";
       const arsenalChartType = document.getElementById("arsenalChartType")?.value || "bar";
       arsenalProcessSelection(selectedItem, arsenalChartType);
       
