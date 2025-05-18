@@ -1,63 +1,3 @@
-const ITEM_TYPES = [
-  "Medical Kit",
-  "Bandage",
-  "Airbag Set",
-  "Binder",
-  "Blood Kit",
-  "Car Battery",
-  "Cash Envelope",
-  "Catalytic Converter",
-  "Checkbook",
-  "Cleaning Kit",
-  "Duffel Bag",
-  "EMS Cap",
-  "Evidence Box",
-  "Fingerprint Kit",
-  "Fire Extinguisher",
-  "Flare",
-  "Flashlight",
-  "Knife",
-  "Gas Can",
-  "GPS Watch",
-  "Gov Repair Kit",
-  "Gov Tyre Mobility Kit",
-  "Generic Drug A",
-  "Generic Drug B",
-  "Generic Drug C",
-  "Generic Drug D",
-  "MDT",
-  "Motorcycle Battery",
-  "Pack of Cigarettes",
-  "Pack of Cigars",
-  "Paper",
-  "Prepaid Fuel Card",
-  "Radio",
-  "Radio Earpiece",
-  "Repair",
-  "SAMS Belt",
-  "SAMS Boots",
-  "SAMS Holster",
-  "SAMS Pants",
-  "SAMS Scrub Pants",
-  "SAMS Scrub Top",
-  "SAMS Skirt",
-  "Sample Kit",
-  "Saliva Swab",
-  "Seatbelt Set",
-  "Stethoscope",
-  "TacMed Balaclava",
-  "TacMed Cargo Pants",
-  "TacMed First Responder Jacket",
-  "TacMed Gaiter",
-  "TacMed Pants",
-  "TacMed T-Shirt",
-  "TecMed Headset",
-  "TecMed Vest",
-  "Tactical Flashlight",
-  "Traffic Cone",
-  "Wheelchair",
-];
-
 const ITEM_DEFINITIONS = {
   "Medical Kit": {
     acceptableNumbers: {
@@ -66,7 +6,7 @@ const ITEM_DEFINITIONS = {
       timeInterval: 300000, // 5 minutes
     },
   },
-  Bandage: {
+  "Bandage": {
     acceptableNumbers: {
       perSingleTransaction: 1,
       perTimeInterval: 1,
@@ -80,7 +20,7 @@ const ITEM_DEFINITIONS = {
       timeInterval: 0,
     },
   },
-  Binder: {
+  "Binder": {
     acceptableNumbers: {
       perSingleTransaction: 5,
       perTimeInterval: 5,
@@ -115,7 +55,7 @@ const ITEM_DEFINITIONS = {
       timeInterval: 0,
     },
   },
-  Checkbook: {
+  "Checkbook": {
     acceptableNumbers: {
       perSingleTransaction: 0,
       perTimeInterval: 0,
@@ -164,21 +104,21 @@ const ITEM_DEFINITIONS = {
       timeInterval: 300000, // 5 minutes
     },
   },
-  Flare: {
+  "Flare": {
     acceptableNumbers: {
       perSingleTransaction: 1,
       perTimeInterval: 1,
       timeInterval: 300000, // 5 minutes
     },
   },
-  Flashlight: {
+  "Flashlight": {
     acceptableNumbers: {
       perSingleTransaction: 1,
       perTimeInterval: 1,
       timeInterval: 1814400000, // 3 weeks
     },
   },
-  Knife: {
+  "Knife": {
     acceptableNumbers: {
       perSingleTransaction: 1,
       perTimeInterval: 1,
@@ -241,7 +181,7 @@ const ITEM_DEFINITIONS = {
       timeInterval: 300000, // 5 minutes
     },
   },
-  MDT: {
+  "MDT": {
     acceptableNumbers: {
       perSingleTransaction: 1,
       perTimeInterval: 1,
@@ -269,7 +209,7 @@ const ITEM_DEFINITIONS = {
       timeInterval: 14400000, // 4 hours
     },
   },
-  Paper: {
+  "Paper": {
     acceptableNumbers: {
       perSingleTransaction: 1,
       perTimeInterval: 1,
@@ -283,7 +223,7 @@ const ITEM_DEFINITIONS = {
       timeInterval: 0,
     },
   },
-  Radio: {
+  "Radio": {
     acceptableNumbers: {
       perSingleTransaction: 1,
       perTimeInterval: 1,
@@ -297,7 +237,7 @@ const ITEM_DEFINITIONS = {
       timeInterval: 1814400000, // 3 weeks
     },
   },
-  Repair: {
+  "Repair": {
     acceptableNumbers: {
       perSingleTransaction: 3,
       perTimeInterval: 3,
@@ -374,7 +314,7 @@ const ITEM_DEFINITIONS = {
       timeInterval: 0,
     },
   },
-  Stethoscope: {
+  "Stethoscope": {
     acceptableNumbers: {
       perSingleTransaction: 1,
       perTimeInterval: 1,
@@ -451,7 +391,7 @@ const ITEM_DEFINITIONS = {
       timeInterval: 0,
     },
   },
-  Wheelchair: {
+  "Wheelchair": {
     acceptableNumbers: {
       perSingleTransaction: 1,
       perTimeInterval: 1,

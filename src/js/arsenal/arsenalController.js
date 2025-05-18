@@ -11,7 +11,7 @@ function populateItemDropdown() {
   const selector = document.createElement("select");
   selector.id = "arsenalItemSelector";
 
-  for (const item of ITEM_TYPES) {
+  for (const item of Object.keys(ITEM_DEFINITIONS)) {
       const option = document.createElement("option");
       option.value = item;
       option.textContent = item;
