@@ -31,36 +31,36 @@ function checkPurchaseViolationsGroupedByInitiator(initiators = [], itemDefiniti
       const ts = typeof tx.timestamp === "number" ? tx.timestamp : new Date(tx.timestamp).getTime();
       const doneAt = tx.doneAt;
       const qty = tx.quantity ?? 0;
-      const { numAtOnce, rateNum, rateInterval } = def.acceptableNumbers;
+      const { perSingleTransaction, perTimeInterval, timeInterval } = def.acceptableNumbers;
 
-      // numAtOnce
-      if (qty > numAtOnce) {
+      // perSingleTransaction
+      if (qty > perSingleTransaction) {
         initiatorViolations.push({
-          type: "numAtOnce",
+          type: "perSingleTransaction",
           itemName: itemNameForReport,
           quantity: qty,
-          allowed: numAtOnce,
+          allowed: perSingleTransaction,
           timestamps: [doneAt],
-          description: `Bought ${qty}x ${itemNameForReport} in one transaction (limit: ${numAtOnce})`,
+          description: `Bought ${qty}x ${itemNameForReport} in one transaction (limit: ${perSingleTransaction})`,
         });
         usedTxnKeys.add(`${doneAt}|${ts}`);
       }
 
-      // gather for rateNum
+      // gather for perTimeInterval
       (itemTimestampsMap[lookupKey] ||= []).push({ quantity: qty, timestamp: ts, doneAt });
     }
 
-    // rateNum sliding windows
+    // perTimeInterval sliding windows
     for (const [lookupKey, entries] of Object.entries(itemTimestampsMap)) {
       const def = defsByKey[lookupKey];
       if (!def) continue;
-      const { rateNum, rateInterval } = def.acceptableNumbers;
+      const { perTimeInterval, timeInterval } = def.acceptableNumbers;
       const itemNameForReport = def.__displayName;
       entries.sort((a, b) => a.timestamp - b.timestamp);
 
       for (let i = 0; i < entries.length; i++) {
         const base = entries[i];
-        const winEnd = base.timestamp + rateInterval;
+        const winEnd = base.timestamp + timeInterval;
         const windowEntries = entries.filter(
           (e) =>
             e.timestamp >= base.timestamp &&
@@ -79,18 +79,18 @@ function checkPurchaseViolationsGroupedByInitiator(initiators = [], itemDefiniti
         }
 
         const totalQty = uniq.reduce((s, e) => s + e.quantity, 0);
-        if (totalQty > rateNum) {
+        if (totalQty > perTimeInterval) {
           initiatorViolations.push({
-            type: "rateNum",
+            type: "perTimeInterval",
             itemName: itemNameForReport,
             quantityWindow: totalQty,
-            allowed: rateNum,
+            allowed: perTimeInterval,
             windowStart: base.timestamp,
             windowEnd: winEnd,
             timestamps: uniq.map((e) => e.doneAt),
             description: `Bought ${totalQty}x ${itemNameForReport} within ${
-              rateInterval / 1000
-            }s (limit: ${rateNum})`,
+              timeInterval / 1000
+            }s (limit: ${perTimeInterval})`,
           });
           uniq.forEach((e) => usedTxnKeys.add(`${e.doneAt}|${e.timestamp}`));
         }
@@ -186,7 +186,7 @@ function reportViolations() {
 /* for (const item of Object.keys(ITEM_DEFINITIONS)) {
     if (ITEM_DEFINITIONS.hasOwnProperty(item)) {
         const an = ITEM_DEFINITIONS[item].acceptableNumbers;
-        let interval = an.rateInterval && an.rateInterval || 0
+        let interval = an.timeInterval && an.timeInterval || 0
         let description = "";
         if (rateTable[interval]) {
             description = rateTable[interval];
@@ -194,6 +194,6 @@ function reportViolations() {
         else {
             description = `${interval / 1000} seconds`;
         }
-        console.log(`${item} has limit:\n  ${an.numAtOnce} in a single transaction\n  or ${an.rateNum} per ${description}`);
+        console.log(`${item} has limit:\n  ${an.perSingleTransaction} in a single transaction\n  or ${an.perTimeInterval} per ${description}`);
     }
 } */
