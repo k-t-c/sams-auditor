@@ -7,6 +7,7 @@
   <body>
     <nav class="tab-bar">
       <button class="tab-button active" data-tab="uploadView">Upload</button>
+      <button class="tab-button" data-tab="reportView">Report</button>
       <button class="tab-button" data-tab="arsenalView">Arsenal</button>
     </nav>
 
@@ -14,9 +15,12 @@
       <h1>Upload CSV and Analyze Purchases</h1>
       <input type="file" id="csvUpload" accept=".csv" />
       <br>
+      <div id="uploadViewNotice"></div>
+    </div>
+    
+    <div id="reportView" class="tab-content">
       <button id="exportBtn" onclick="exportViolationsReport()">Export Report</button>
       <div id="violationsReport"></div>
-
     </div>
 
     <div id="arsenalView" class="tab-content">
