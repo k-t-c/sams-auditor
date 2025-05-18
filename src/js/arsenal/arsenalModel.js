@@ -135,9 +135,9 @@ let transactionsByType = {
 function arsenalProcessSelection() {
   const selectedItem = document.getElementById("arsenalItemSelector").value || "";
   const arsenalChartType = document.getElementById("arsenalChartType")?.value || "bar";
-  let processedData = window.extractedData
+  window.arsenalFilteredData = window.extractedData
     .map((row) => uploadAnalyzeRow(row, selectedItem))
     .filter(Boolean);
-  renderExtractedData(processedData);
-  renderPurchaseChart(processedData, arsenalChartType);
+  renderExtractedData(window.arsenalFilteredData);
+  renderPurchaseChart(window.arsenalFilteredData, arsenalChartType);
 }

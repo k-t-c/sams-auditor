@@ -10,6 +10,19 @@ function uploadProcessCSV(file) {
       }
     });
   }
+
+  function uploadDataReady() {
+  const noticeDiv = document.getElementById("uploadViewNotice");
+  if (noticeDiv) {
+    noticeDiv.innerHTML = `
+      <p>Data Uploaded! Select a tab to continue.</p>
+      <p>Report:  View a report of detected arsenal purchase violations</p>
+      <p>Arsenal: Detailed arsenal purchases by item</p>
+    `
+  }
+  arsenalProcessSelection();
+  reportViolations();
+}
   
   document.getElementById('csvUpload').addEventListener('change', function (e) {
     const file = e.target.files[0];
