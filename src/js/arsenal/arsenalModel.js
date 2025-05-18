@@ -132,8 +132,12 @@ let transactionsByType = {
   other: [],
 };
 
-function arsenalProcessSelection (selectedItem = "Medical Kit", arsenalChartType = "bar") {
-  let processedData = window.extractedData.map(row => uploadAnalyzeRow(row, selectedItem)).filter(Boolean);
+function arsenalProcessSelection() {
+  const selectedItem = document.getElementById("arsenalItemSelector").value || "";
+  const arsenalChartType = document.getElementById("arsenalChartType")?.value || "bar";
+  let processedData = window.extractedData
+    .map((row) => uploadAnalyzeRow(row, selectedItem))
+    .filter(Boolean);
   renderExtractedData(processedData);
   renderPurchaseChart(processedData, arsenalChartType);
 }

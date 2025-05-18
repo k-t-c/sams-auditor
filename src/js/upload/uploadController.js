@@ -18,16 +18,11 @@ function uploadProcessCSV(file, selectedItem) {
     const selectedItem = document.getElementById('arsenalItemSelector').value;
     uploadProcessCSV(file, selectedItem);
   
-    // Reattach onchange listener to dropdown in case user wants to re-filter
-    document.getElementById('arsenalItemSelector').onchange = () => {
-      const selectedItem = document.getElementById('arsenalItemSelector').value || "";
-      const arsenalChartType = document.getElementById("arsenalChartType")?.value || "bar";
-      arsenalProcessSelection(selectedItem, arsenalChartType);
+    // reattach onchange listener to dropdown in case user wants to refilter
+    document.getElementById('arsenalItemSelector').onchange = () => { 
+      arsenalProcessSelection();
     };
     document.getElementById("arsenalChartType").addEventListener ("change", function(e) {
-      const selectedItem = document.getElementById('arsenalItemSelector').value || "";
-      const arsenalChartType = document.getElementById("arsenalChartType")?.value || "bar";
-      arsenalProcessSelection(selectedItem, arsenalChartType);
-      
+      arsenalProcessSelection();
     });
   });
