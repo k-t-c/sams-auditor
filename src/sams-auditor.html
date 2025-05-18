@@ -7,24 +7,20 @@
   <body>
     <nav class="tab-bar">
       <button class="tab-button active" data-tab="uploadView">Upload</button>
-      <button class="tab-button" data-tab="reportView">Report</button>
       <button class="tab-button" data-tab="arsenalView">Arsenal</button>
+      <button class="tab-button" data-tab="reportView">Report</button>
+      <button class="tab-button" data-tab="itemLimitsView">Item Limits</button>
     </nav>
 
     <div id="uploadView" class="tab-content active">
-      <h1>Upload CSV and Analyze Purchases</h1>
+      <h1>Upload Bank Transaction CSV file</h1>
       <input type="file" id="csvUpload" accept=".csv" />
       <br>
       <div id="uploadViewNotice">
         <p>Upload a file to begin</p>
       </div>
     </div>
-    
-    <div id="reportView" class="tab-content">
-      <button id="exportBtn" onclick="exportViolationsReport()">Export Report</button>
-      <div id="violationsReport"></div>
-    </div>
-
+        
     <div id="arsenalView" class="tab-content">
       <label for="arsenalItemSelector">Item:</label>
       <select id="arsenalItemSelector"></select>
@@ -51,6 +47,12 @@
       <div id="arsenalTable"></div>
     </div>
 
+    <div id="reportView" class="tab-content">
+      <button id="exportBtn" onclick="exportViolationsReport()">Export Report</button>
+      <div id="violationsReport"></div>
+    </div>
+
+    <div id="itemLimitsView" class="tab-content"></div>
     <!-- 
         Disabled to avoid CORS errors while developing and testing
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -60,21 +62,25 @@
     <!-- local copies for local developing and testing -->
     <script src="./js/chart.js"></script>
     <script src="./js/papaparse.min.js"></script>
-    <script src="./js/TEMP-report-generator.js"></script>
 
     <!-- item definitions -->
     <script src="./js/items.js"></script>
 
-    <!-- Arsenal JS files -->
-    <script src="./js/arsenal/arsenalModel.js"></script>
-    <script src="./js/arsenal/arsenalView.js"></script>
-    <script src="./js/arsenal/arsenalController.js"></script>
-    
     <!-- Report JS files -->
     <script src="./js/report/reportModel.js"></script>
     <script src="./js/report/reportView.js"></script>
     <script src="./js/report/reportController.js"></script>
     
+    <!-- Arsenal JS files -->
+    <script src="./js/arsenal/arsenalModel.js"></script>
+    <script src="./js/arsenal/arsenalView.js"></script>
+    <script src="./js/arsenal/arsenalController.js"></script>
+  
+    <!-- Item Limits JS files -->
+    <script src="./js/limits/limitsModel.js"></script>
+    <script src="./js/limits/limitsView.js"></script>
+    <script src="./js/limits/limitsController.js"></script>
+
     <!-- Upload JS files -->
     <script src="./js/upload/uploadModel.js"></script>
     <script src="./js/upload/uploadView.js"></script>
