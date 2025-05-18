@@ -1,4 +1,4 @@
-function uploadProcessCSV(file, selectedItem) {
+function uploadProcessCSV(file) {
     Papa.parse(file, {
       header: true,
       skipEmptyLines: true,
@@ -14,9 +14,12 @@ function uploadProcessCSV(file, selectedItem) {
   document.getElementById('csvUpload').addEventListener('change', function (e) {
     const file = e.target.files[0];
     if (!file) return;
-  
-    const selectedItem = document.getElementById('arsenalItemSelector').value;
-    uploadProcessCSV(file, selectedItem);
+    const noticeDiv = document.getElementById("uploadViewNotice");
+    if (noticeDiv) {
+      noticeDiv.innerHTML = "<p>Processing...</p>"
+    }
+    
+    uploadProcessCSV(file);
   
     // reattach onchange listener to dropdown in case user wants to refilter
     document.getElementById('arsenalItemSelector').onchange = () => { 

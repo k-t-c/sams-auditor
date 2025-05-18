@@ -101,6 +101,14 @@ function uploadAnalyzeRow(row, selectedItem) {
 }
 
 function uploadDataReady() {
+  const noticeDiv = document.getElementById("uploadViewNotice");
+    if (noticeDiv) {
+      noticeDiv.innerHTML = `
+        <p>Data Uploaded! Select a tab to continue.</p>
+        <p>Report:  View a report of detected arsenal purchase violations</p>
+        <p>Arsenal: Detailed arsenal purchases by item</p>
+      `
+    }
   arsenalProcessSelection();
 }
 
