@@ -33,7 +33,7 @@ function renderExtractedData(data) {
   arsenalTableDiv.appendChild(table);
 }
 
-function renderPurchaseChart(data, chartType = "line") {
+function renderPurchaseChart(data, chartType = "bar") {
   const ctx = document.getElementById("purchaseChart").getContext("2d");
   if (chartInstance) {
     chartInstance.destroy();

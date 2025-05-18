@@ -99,3 +99,16 @@ function uploadAnalyzeRow(row, selectedItem) {
 
   return null;
 }
+
+function uploadDataReady() {
+  arsenalProcessSelection();
+}
+
+function uploadCheckDataReady(results) {
+  if (window.extractedData && window.extractedData.length === results.data.length) {
+    uploadDataReady();
+  }
+  else {
+    setTimeout(uploadCheckDataReady, 100, results);
+  }
+}
