@@ -181,3 +181,19 @@ function reportViolations() {
     targetDiv.appendChild(section);
   });
 }
+
+// logging out a list of item definitions and limits in plain english
+/* for (const item of Object.keys(ITEM_DEFINITIONS)) {
+    if (ITEM_DEFINITIONS.hasOwnProperty(item)) {
+        const an = ITEM_DEFINITIONS[item].acceptableNumbers;
+        let interval = an.rateInterval && an.rateInterval || 0
+        let description = "";
+        if (rateTable[interval]) {
+            description = rateTable[interval];
+        }
+        else {
+            description = `${interval / 1000} seconds`;
+        }
+        console.log(`${item} has limit:\n  ${an.numAtOnce} in a single transaction\n  or ${an.rateNum} per ${description}`);
+    }
+} */
