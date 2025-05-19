@@ -76,7 +76,7 @@ const ITEM_DEFINITIONS = {
       perSingleTransaction: 1,
       perTimeInterval: 1,
       timeInterval: 3600000,
-      timeDescription: "1 hours",
+      timeDescription: "1 Hours",
     },
   },
   "Duffel Bag": {
@@ -456,3 +456,8 @@ const ITEM_DEFINITIONS = {
     },
   },
 };
+
+function getItemDefinitions() {
+  // return a deep-copy so the view can mutate its local copy
+  return JSON.parse(JSON.stringify(ITEM_DEFINITIONS));
+}

@@ -3,6 +3,7 @@ function limitsRenderItems(items) {
     const form = document.createElement("form");
     for (const item of Object.keys(items)) {
         const id = "limit" + item.replace(" ", "-");
+        const an = items[item].acceptableNumbers;
         
         const div = document.createElement("div");
         div.id = id;
@@ -16,6 +17,7 @@ function limitsRenderItems(items) {
         const singlePurchaseInput = document.createElement("input");
         singlePurchaseInput.id = id + "-singlePurchaseInput";
         singlePurchaseInput.type = "number";
+        singlePurchaseInput.value = an.perSingleTransaction;
         
         const span2 = document.createElement("span");
         span2.innerHTML = ` purchases in a single transaction or `
@@ -25,6 +27,7 @@ function limitsRenderItems(items) {
         const perTimeIntervalInput = document.createElement("input");
         perTimeIntervalInput.id = id + "-perTimeIntervalInput";
         perTimeIntervalInput.type = "number";
+        perTimeIntervalInput.value = an.perTimeInterval;
 
         const span3 = document.createElement("span");
         span3.innerHTML = ` purchases over `;
@@ -34,6 +37,7 @@ function limitsRenderItems(items) {
         const timeIntervalInput = document.createElement("input");
         timeIntervalInput.id = id + "-timeIntervalInput";
         timeIntervalInput.type = "number";
+        timeIntervalInput.value = an.timeDescription.split(" ")[0];
         
         const select = document.createElement("select");
         select.id = id + "select";
@@ -44,6 +48,8 @@ function limitsRenderItems(items) {
             <option>Days</option>
             <option>Weeks</option>
         `;
+        select.value = an.timeDescription.split(" ")[1];
+
         div.appendChild(span1);
         div.appendChild(singlePurchaseLabel);
         div.appendChild(singlePurchaseInput);
