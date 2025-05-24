@@ -2,15 +2,19 @@ function limitsRenderItems(items) {
     const itemLimitsViewDiv = document.getElementById("itemLimitsView");
     const form = document.createElement("form");
     for (const item of Object.keys(items)) {
-        const id = "limit" + item.replace(" ", "-");
+        const id = "limit-" + item.replace(" ", "-");
         const an = items[item].acceptableNumbers;
         
         const div = document.createElement("div");
         div.id = id;
         div.setAttribute("data-value", item);
+
+        const span0 = document.createElement("span");
+        span0.innerHTML = `${item}`
+        span0.classList = "itemLimitsView-spacer";
         
         const span1 = document.createElement("span");
-        span1.innerHTML = `${item} is limited to `;
+        span1.innerHTML = " is limited to ";
 
         const singlePurchaseLabel = document.createElement("label");
         singlePurchaseLabel.htmlFor = id + "-singlePurchaseLabel";
@@ -50,6 +54,7 @@ function limitsRenderItems(items) {
         `;
         select.value = an.timeDescription.split(" ")[1];
 
+        div.appendChild(span0);
         div.appendChild(span1);
         div.appendChild(singlePurchaseLabel);
         div.appendChild(singlePurchaseInput);
