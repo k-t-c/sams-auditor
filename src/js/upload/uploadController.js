@@ -1,15 +1,11 @@
-function uploadProcessCSV(file) {
-    Papa.parse(file, {
-      header: true,
-      skipEmptyLines: true,
-      complete: function (results) {
-        window.extractedData = results.data;
-        localStorage.setItem('extractedData', JSON.stringify(extractedData));
-
-        uploadCheckDataReady(results);
-      }
-    });
+function uploadCheckDataReady(results) {
+  if (window.extractedData && window.extractedData.length === results.data.length) {
+    uploadDataReady();
   }
+  else {
+    setTimeout(uploadCheckDataReady, 100, results);
+  }
+}
 
 function uploadDataReady() {
   const noticeDiv = document.getElementById("uploadViewNotice");

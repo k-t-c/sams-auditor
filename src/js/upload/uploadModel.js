@@ -1,3 +1,16 @@
+function uploadProcessCSV(file) {
+  Papa.parse(file, {
+    header: true,
+    skipEmptyLines: true,
+    complete: function (results) {
+      window.extractedData = results.data;
+      localStorage.setItem('extractedData', JSON.stringify(extractedData));
+
+      uploadCheckDataReady(results);
+    }
+  });
+}
+
 function uploadParseRow(row) {
   let transaction;
   let item;
@@ -101,11 +114,3 @@ function uploadAnalyzeRow(row, selectedItem) {
 }
 
 
-function uploadCheckDataReady(results) {
-  if (window.extractedData && window.extractedData.length === results.data.length) {
-    uploadDataReady();
-  }
-  else {
-    setTimeout(uploadCheckDataReady, 100, results);
-  }
-}
