@@ -11,7 +11,7 @@ function uploadProcessCSV(file) {
     });
   }
 
-  function uploadDataReady() {
+function uploadDataReady() {
   const noticeDiv = document.getElementById("uploadViewNotice");
   if (noticeDiv) {
     noticeDiv.innerHTML = `
