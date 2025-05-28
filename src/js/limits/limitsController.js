@@ -8,6 +8,7 @@ function limitsDataReady() {
 }
 
 function limitsUpdated () {
+  localStorage.setItem("itemDefinitions", JSON.stringify(window.itemDefinitions));
   limitsRenderItems();
   reportViolations();
 }
