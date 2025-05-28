@@ -565,7 +565,7 @@ function limitsResetToDefault() {
 }
 
 function getItemDefinitions() {
-  return JSON.parse(localStorage.getItem("itemDefinitions")) || ITEM_DEFINITIONS;
+  return JSON.parse(localStorage.getItem("itemDefinitions")) || JSON.parse(JSON.stringify(ITEM_DEFINITIONS));
 }
 
 window.itemDefinitions = getItemDefinitions();
