@@ -311,7 +311,7 @@ const ITEM_DEFINITIONS = {
       timeDescription: "3 Weeks",
     },
   },
-  "SAMS Scrub Pants": {
+  "SAMS Scrub pants": {
     acceptableNumbers: {
       perSingleTransaction: 1,
       perTimeInterval: 1,
@@ -457,7 +457,115 @@ const ITEM_DEFINITIONS = {
   },
 };
 
-function getItemDefinitions() {
-  // return a deep-copy so the view can mutate its local copy
-  return JSON.parse(JSON.stringify(ITEM_DEFINITIONS));
+const msPerWeek = 604800000;
+const msPerDay = 86400000;
+const msPerHour = 3600000;
+const msPerMinute = 60000;
+const msPerSecond = 1000;
+
+function convertMsToString(timeInterval = 0) {
+  if (timeInterval < 1000) {
+    // TODO: error handling    
+    return false;
+  }
+  let ms = timeInterval;
+
+  const weeks = Math.floor(ms / msPerWeek);
+  ms %= msPerWeek;
+  const days = Math.floor(ms / msPerDay);
+  ms %= msPerDay;
+  const hours = Math.floor(ms / msPerHour);
+  ms %= msPerHour;
+  const minutes = Math.floor(ms / msPerMinute);
+  ms %= msPerMinute;
+  const seconds = Math.floor(ms / msPerSecond);
+
+  if (weeks > 0) return `${weeks} Weeks`;
+  if (days > 0) return `${days} Days`;
+  if (hours > 0) return `${hours} Hours`;
+  if (minutes > 0) return `${minutes} Minutes`;
+  if (seconds > 0) return `${seconds} Seconds`;
+
 }
+
+// Weeks, Days, hrs, mins, sec
+function getMs(timeArr = [0, 0, 0, 0, 0]) {
+  if(timeArr.length < 5) return -1;
+  return timeArr[0] * msPerWeek + timeArr[1] * msPerDay + timeArr[2] * msPerHour + timeArr[3] * msPerMinute + timeArr[4] * msPerSecond;
+}
+
+function limitsSetItemLimits(itemName = "", itemObj = null) {
+  let itemDefinition = window.itemDefinitions[itemName] || null;
+  if(!itemName || ! itemObj) {
+    // TODO: error handling
+    return false;
+  }
+  if (itemDefinition) {
+    if (itemObj) {
+      window.itemDefinitions[itemName] = itemObj
+      limitsUpdated();
+      return true;
+    }
+  }
+  // TODO: error handling
+  return false;
+}
+
+function limitsGetSingleTransaction (itemName) {
+  return itemDefinitions[itemName]?.acceptableNumbers?.perSingleTransaction || null;
+}
+
+function limitsSetSingleTransaction (itemName, newLimit) {
+  if(window.itemDefinitions && window.itemDefinitions[itemName] && window.itemDefinitions[itemName].acceptableNumbers) {
+    window.itemDefinitions[itemName].acceptableNumbers.perSingleTransaction = newLimit;
+    limitsUpdated();
+    return true;
+  }
+  else {
+    // TODO: error handling
+    return null;
+  }
+}
+function limitsGetPerTimeInterval (itemName) {
+  return itemDefinitions[itemName]?.acceptableNumbers?.perTimeInterval || null;
+}
+
+function limitsSetPerTimeInterval(itemName, newLimit) {
+  if(window.itemDefinitions && window.itemDefinitions[itemName] && window.itemDefinitions[itemName].acceptableNumbers) {
+    window.itemDefinitions[itemName].acceptableNumbers.perTimeInterval = newLimit;
+    limitsUpdated();
+    return true;
+  }
+  else {
+    // TODO: error handling
+    return null;
+  }
+}
+
+function limitsGetTimeInterval(itemName) {
+  return itemDefinitions[itemName]?.acceptableNumbers?.timeInterval || null;
+}
+
+function limitsSetTimeInterval(itemName, newLimit) {
+  if(window.itemDefinitions && window.itemDefinitions[itemName] && window.itemDefinitions[itemName].acceptableNumbers) {
+    window.itemDefinitions[itemName].acceptableNumbers.timeInterval = newLimit;
+    window.itemDefinitions[itemName].acceptableNumbers.timeDescription = convertMsToString(newLimit);
+    limitsUpdated();
+    return true;
+  }
+  else {
+    // TODO: error handling
+    return null;
+  }
+}
+
+function limitsResetToDefault() {
+  window.itemDefinitions = JSON.parse(JSON.stringify(ITEM_DEFINITIONS));
+  limitsUpdated();
+}
+
+function getItemDefinitions() {
+  return JSON.parse(localStorage.getItem("itemDefinitions")) || ITEM_DEFINITIONS;
+}
+
+window.itemDefinitions = getItemDefinitions();

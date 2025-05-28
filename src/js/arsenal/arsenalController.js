@@ -11,7 +11,7 @@ function populateItemDropdown() {
   const selector = document.createElement("select");
   selector.id = "arsenalItemSelector";
 
-  for (const item of Object.keys(ITEM_DEFINITIONS)) {
+  for (const item of Object.keys(window.itemDefinitions)) {
       const option = document.createElement("option");
       option.value = item;
       option.textContent = item;
@@ -22,7 +22,7 @@ function populateItemDropdown() {
   arsenalView.insertBefore(selector, arsenalView.firstChild);
 }
 
-
+// TODO: move all below this line to a new main.js or boot.js
 window.addEventListener('DOMContentLoaded', populateItemDropdown);
 
 document.addEventListener("DOMContentLoaded", () => {

@@ -123,7 +123,7 @@ function buildViolationsText(groupedViolations) {
 function exportViolationsReport() {
   const grouped = checkPurchaseViolationsGroupedByInitiator(
     Object.values(initiatorsByID),
-    ITEM_DEFINITIONS
+    window.itemDefinitions
   );
   if (!Object.keys(grouped).length) {
     alert("No violations to export.");
@@ -149,7 +149,7 @@ function exportViolationsReport() {
 function reportViolations() {
   const groupedViolations = checkPurchaseViolationsGroupedByInitiator(
     Object.values(initiatorsByID),
-    ITEM_DEFINITIONS
+    window.itemDefinitions
   );
 
   console.log(groupedViolations);
@@ -183,9 +183,9 @@ function reportViolations() {
 }
 
 // logging out a list of item definitions and limits in plain english
-/* for (const item of Object.keys(ITEM_DEFINITIONS)) {
-    if (ITEM_DEFINITIONS.hasOwnProperty(item)) {
-        const an = ITEM_DEFINITIONS[item].acceptableNumbers;
+/* for (const item of Object.keys(window.itemDefinitions)) {
+    if (window.itemDefinitions.hasOwnProperty(item)) {
+        const an = window.itemDefinitions[item].acceptableNumbers;
         let interval = an.timeInterval && an.timeInterval || 0
         let description = "";
         if (rateTable[interval]) {

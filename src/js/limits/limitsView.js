@@ -1,6 +1,13 @@
-function limitsRenderItems(items) {
+function limitsRenderItems() {
+    let items = window.itemDefinitions;
+    if (!items) {
+        // TODO: error handling
+        return
+    }
     const itemLimitsViewDiv = document.getElementById("itemLimitsView");
+    itemLimitsViewDiv.innerHTML = "";
     const form = document.createElement("form");
+    form.id = "itemLimitsForm";
     for (const item of Object.keys(items)) {
         const id = "limit-" + item.replace(" ", "-");
         const an = items[item].acceptableNumbers;
@@ -44,7 +51,7 @@ function limitsRenderItems(items) {
         timeIntervalInput.value = an.timeDescription.split(" ")[0];
         
         const select = document.createElement("select");
-        select.id = id + "select";
+        select.id = id + "-timeIntervalSelect";
         select.innerHTML = `
             <option>Seconds</option>
             <option>Minutes</option>
