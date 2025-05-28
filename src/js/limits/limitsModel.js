@@ -465,7 +465,7 @@ const msPerSecond = 1000;
 
 function convertMsToString(timeInterval = 0) {
   if (timeInterval < 1000) {
-    // TODO: error handling    
+    // TODO: error handling
     return false;
   }
   let ms = timeInterval;
@@ -485,24 +485,29 @@ function convertMsToString(timeInterval = 0) {
   if (hours > 0) return `${hours} Hours`;
   if (minutes > 0) return `${minutes} Minutes`;
   if (seconds > 0) return `${seconds} Seconds`;
-
 }
 
 // Weeks, Days, hrs, mins, sec
 function getMs(timeArr = [0, 0, 0, 0, 0]) {
-  if(timeArr.length < 5) return -1;
-  return timeArr[0] * msPerWeek + timeArr[1] * msPerDay + timeArr[2] * msPerHour + timeArr[3] * msPerMinute + timeArr[4] * msPerSecond;
+  if (timeArr.length < 5) return -1;
+  return (
+    timeArr[0] * msPerWeek +
+    timeArr[1] * msPerDay +
+    timeArr[2] * msPerHour +
+    timeArr[3] * msPerMinute +
+    timeArr[4] * msPerSecond
+  );
 }
 
 function limitsSetItemLimits(itemName = "", itemObj = null) {
   let itemDefinition = window.itemDefinitions[itemName] || null;
-  if(!itemName || ! itemObj) {
+  if (!itemName || !itemObj) {
     // TODO: error handling
     return false;
   }
   if (itemDefinition) {
     if (itemObj) {
-      window.itemDefinitions[itemName] = itemObj
+      window.itemDefinitions[itemName] = itemObj;
       limitsUpdated();
       return true;
     }
@@ -511,32 +516,38 @@ function limitsSetItemLimits(itemName = "", itemObj = null) {
   return false;
 }
 
-function limitsGetSingleTransaction (itemName) {
+function limitsGetSingleTransaction(itemName) {
   return itemDefinitions[itemName]?.acceptableNumbers?.perSingleTransaction || null;
 }
 
-function limitsSetSingleTransaction (itemName, newLimit) {
-  if(window.itemDefinitions && window.itemDefinitions[itemName] && window.itemDefinitions[itemName].acceptableNumbers) {
+function limitsSetSingleTransaction(itemName, newLimit) {
+  if (
+    window.itemDefinitions &&
+    window.itemDefinitions[itemName] &&
+    window.itemDefinitions[itemName].acceptableNumbers
+  ) {
     window.itemDefinitions[itemName].acceptableNumbers.perSingleTransaction = newLimit;
     limitsUpdated();
     return true;
-  }
-  else {
+  } else {
     // TODO: error handling
     return null;
   }
 }
-function limitsGetPerTimeInterval (itemName) {
+function limitsGetPerTimeInterval(itemName) {
   return itemDefinitions[itemName]?.acceptableNumbers?.perTimeInterval || null;
 }
 
 function limitsSetPerTimeInterval(itemName, newLimit) {
-  if(window.itemDefinitions && window.itemDefinitions[itemName] && window.itemDefinitions[itemName].acceptableNumbers) {
+  if (
+    window.itemDefinitions &&
+    window.itemDefinitions[itemName] &&
+    window.itemDefinitions[itemName].acceptableNumbers
+  ) {
     window.itemDefinitions[itemName].acceptableNumbers.perTimeInterval = newLimit;
     limitsUpdated();
     return true;
-  }
-  else {
+  } else {
     // TODO: error handling
     return null;
   }
@@ -547,13 +558,17 @@ function limitsGetTimeInterval(itemName) {
 }
 
 function limitsSetTimeInterval(itemName, newLimit) {
-  if(window.itemDefinitions && window.itemDefinitions[itemName] && window.itemDefinitions[itemName].acceptableNumbers) {
+  if (
+    window.itemDefinitions &&
+    window.itemDefinitions[itemName] &&
+    window.itemDefinitions[itemName].acceptableNumbers
+  ) {
     window.itemDefinitions[itemName].acceptableNumbers.timeInterval = newLimit;
-    window.itemDefinitions[itemName].acceptableNumbers.timeDescription = convertMsToString(newLimit);
+    window.itemDefinitions[itemName].acceptableNumbers.timeDescription =
+      convertMsToString(newLimit);
     limitsUpdated();
     return true;
-  }
-  else {
+  } else {
     // TODO: error handling
     return null;
   }
@@ -565,7 +580,10 @@ function limitsResetToDefault() {
 }
 
 function getItemDefinitions() {
-  return JSON.parse(localStorage.getItem("itemDefinitions")) || JSON.parse(JSON.stringify(ITEM_DEFINITIONS));
+  return (
+    JSON.parse(localStorage.getItem("itemDefinitions")) ||
+    JSON.parse(JSON.stringify(ITEM_DEFINITIONS))
+  );
 }
 
 window.itemDefinitions = getItemDefinitions();
