@@ -499,6 +499,33 @@ function getMs(timeArr = [0, 0, 0, 0, 0]) {
   );
 }
 
+function getMsFromString(timeString) {
+  let [value, time] = timeString.split(" ");
+  value = parseInt(value);
+  let result = 0;
+  switch (time) {
+    case "Weeks":
+      result = value * msPerWeek;
+      break;
+    case "Days":
+      result = value * msPerDay;
+      break;
+    case "Hours":
+      result = value * msPerHour;
+      break;
+    case "Minutes":
+      result = value * msPerMinute;
+      break;
+    case "Seconds":
+      result = value * msPerSecond;
+      break;
+    default:
+      // TODO: error handling
+      break;
+  }
+  return result;
+}
+
 function limitsSetItemLimits(itemName = "", itemObj = null) {
   let itemDefinition = window.itemDefinitions[itemName] || null;
   if (!itemName || !itemObj) {
