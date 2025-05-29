@@ -607,7 +607,6 @@ function limitsResetAllToDefault() {
 }
 
 function limitsResetItemToDefault(itemName) {
-  console.log("limitsResetItemToDefault > itemName >", itemName);
   window.itemDefinitions[itemName] = JSON.parse(JSON.stringify(ITEM_DEFINITIONS[itemName]));
   limitsUpdated();
 }

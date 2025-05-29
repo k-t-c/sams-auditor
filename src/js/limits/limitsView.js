@@ -86,7 +86,6 @@ function limitsRenderItems() {
         resetItemButton.innerHTML = "Reset";
         resetItemButton.dataset.itemName = itemName;
         const callback = function (event) {
-            debugger;
             const itemName = event.target.dataset.itemName;
             limitsResetItemToDefault(itemName);
         }

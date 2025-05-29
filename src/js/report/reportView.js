@@ -5,8 +5,6 @@ function reportViolations() {
     window.itemDefinitions
   );
 
-  console.log(groupedViolations);
-
   const targetDiv = document.getElementById("violationsReport");
   if (!targetDiv) return;
 
