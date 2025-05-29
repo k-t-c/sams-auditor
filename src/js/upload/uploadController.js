@@ -12,8 +12,9 @@ function uploadDataReady() {
   if (noticeDiv) {
     noticeDiv.innerHTML = `
       <p>Data Uploaded! Select a tab to continue.</p>
-      <p>Report:  View a report of detected arsenal purchase violations</p>
       <p>Arsenal: Detailed arsenal purchases by item</p>
+      <p>Report:  View a report of detected arsenal purchase violations</p>
+      <p>Item Limits: Set custom limits on item purchases</p>
     `
   }
   arsenalProcessSelection();
