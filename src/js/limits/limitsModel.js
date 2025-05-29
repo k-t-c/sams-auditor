@@ -601,9 +601,28 @@ function limitsSetTimeInterval(itemName, newLimit) {
   }
 }
 
-function limitsResetToDefault() {
+function limitsResetAllToDefault() {
   window.itemDefinitions = JSON.parse(JSON.stringify(ITEM_DEFINITIONS));
   limitsUpdated();
+}
+
+function limitsResetItemToDefault(itemName) {
+  console.log("limitsResetItemToDefault > itemName >", itemName);
+  window.itemDefinitions[itemName] = JSON.parse(JSON.stringify(ITEM_DEFINITIONS[itemName]));
+  limitsUpdated();
+}
+
+function limitsItemIsDefault(itemName) {
+  item = itemDefinitions[itemName].acceptableNumbers;
+  itemDefault = ITEM_DEFINITIONS[itemName].acceptableNumbers;
+  for (const property of Object.keys(item)) {
+    if (item.hasOwnProperty(property)){
+      if(item[property] !== itemDefault[property]) {
+        return false;
+      }
+    }
+  }
+  return true;
 }
 
 function getItemDefinitions() {

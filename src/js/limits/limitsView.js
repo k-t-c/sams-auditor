@@ -6,18 +6,26 @@ function limitsRenderItems() {
   }
   const itemLimitsViewDiv = document.getElementById("itemLimitsView");
   itemLimitsViewDiv.innerHTML = "";
+  
+  const resetAllButton = document.createElement("button");
+  resetAllButton.id = "limitsResetAll";
+  resetAllButton.innerHTML = "Reset All to Default";
+  resetAllButton.addEventListener("click", limitsResetAllToDefault,);
+  resetAllButton.style = "margin: auto auto 1em auto";
+  itemLimitsViewDiv.appendChild(resetAllButton);
+
   const form = document.createElement("form");
   form.id = "itemLimitsForm";
-  for (const item of Object.keys(items)) {
-    const id = "limit-" + item.replace(" ", "-");
-    const an = items[item].acceptableNumbers;
+  for (const itemName of Object.keys(items)) {
+    const id = "limit-" + itemName.replace(" ", "-");
+    const an = items[itemName].acceptableNumbers;
 
     const div = document.createElement("div");
     div.id = id;
-    div.setAttribute("data-value", item);
+    div.setAttribute("data-value", itemName);
 
     const span0 = document.createElement("span");
-    span0.innerHTML = `${item}`;
+    span0.innerHTML = `${itemName}`;
     span0.classList = "itemLimitsView-spacer";
 
     const span1 = document.createElement("span");
@@ -71,6 +79,21 @@ function limitsRenderItems() {
     div.appendChild(span3);
     div.appendChild(timeIntervalInput);
     div.appendChild(select);
+
+    if (!limitsItemIsDefault(itemName)) {
+        const resetItemButton = document.createElement("button");
+        resetItemButton.id = `limitsReset${itemName.replace(" ", "-")}`;
+        resetItemButton.innerHTML = "Reset";
+        resetItemButton.dataset.itemName = itemName;
+        const callback = function (event) {
+            debugger;
+            const itemName = event.target.dataset.itemName;
+            limitsResetItemToDefault(itemName);
+        }
+        resetItemButton.addEventListener("click", callback);
+        div.appendChild(resetItemButton);
+    }
+
     form.appendChild(div);
   }
   itemLimitsViewDiv.appendChild(form);
