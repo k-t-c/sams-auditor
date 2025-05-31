@@ -4,15 +4,7 @@ const LIMITS_UPPER_RANGE = {
   timeInterval: 1814400000,
 };
 
-function limitsDataReady() {}
-
-function limitsUpdated() {
-  localStorage.setItem("itemDefinitions", JSON.stringify(window.itemDefinitions));
-  limitsRenderItems();
-  reportViolations();
-}
-
-document.addEventListener("DOMContentLoaded", () => {
+function limitsDataReady() {
   const itemDefinitions = getItemDefinitions();
   limitsRenderItems(itemDefinitions);
 
@@ -32,18 +24,24 @@ document.addEventListener("DOMContentLoaded", () => {
         break;
       case id.includes("-timeIntervalInput") || id.includes("-timeIntervalSelect"):
         const inputId = `limit-${itemName.replace(" ", "-")}-timeIntervalInput`;
-        const selectId = `limit-${itemName.replace(" ", "-")}-timeIntervalSelect`
+        const selectId = `limit-${itemName.replace(" ", "-")}-timeIntervalSelect`;
 
         const inputValue = document.getElementById(inputId)?.value;
         const selectValue = document.getElementById(selectId)?.value;
         const newLimitStr = `${inputValue} ${selectValue}`;
         const newLimit = getMsFromString(newLimitStr);
         limitsSetTimeInterval(itemName, newLimit);
-        
+
         break;
       default:
         // TODO: error handing
         break;
     }
   });
-});
+}
+
+function limitsUpdated() {
+  localStorage.setItem("itemDefinitions", JSON.stringify(window.itemDefinitions));
+  limitsRenderItems();
+  reportViolations();
+}
