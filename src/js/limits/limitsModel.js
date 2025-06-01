@@ -7,7 +7,10 @@ const msPerSecond = 1000;
 function convertMsToString(timeInterval = 0) {
   if (timeInterval < 1000) {
     // TODO: error handling
-    return false;
+    timeInterval = Math.round(timeInterval / 1000);
+  }
+  if (timeInterval <= 0) {
+    return "0 Seconds";
   }
   let ms = timeInterval;
 
