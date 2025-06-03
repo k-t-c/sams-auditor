@@ -50,7 +50,7 @@ function limitsRenderItems() {
     perTimeIntervalInput.value = an.perTimeInterval;
 
     const span3 = document.createElement("span");
-    span3.innerHTML = ` purchases over `;
+    span3.innerHTML = ` purchases within `;
 
     const timeIntervalLabel = document.createElement("label");
     timeIntervalLabel.htmlFor = id + "-timeIntervalLabel";
@@ -85,7 +85,7 @@ function limitsRenderItems() {
         const resetItemButton = document.createElement("button");
         resetItemButton.type = "button";
         resetItemButton.id = `limitsReset${itemName.replace(" ", "-")}`;
-        resetItemButton.innerHTML = "Reset";
+        resetItemButton.innerHTML = "Reset to Default";
         resetItemButton.dataset.itemName = itemName;
         const callback = function (event) {
             const itemName = event.target.dataset.itemName;
