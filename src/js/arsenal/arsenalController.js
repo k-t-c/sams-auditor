@@ -21,3 +21,5 @@ function arsenalPopulateItemDropdown() {
   // Insert at the top of the arsenal view
   arsenalView.insertBefore(selector, arsenalView.firstChild);
 }
+
+window.addEventListener("DOMContentLoaded", arsenalPopulateItemDropdown);
