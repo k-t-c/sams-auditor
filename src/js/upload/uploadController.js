@@ -18,6 +18,7 @@ function uploadDataReady() {
     `
   }
   limitsDataReady();
+  uploadProcessExtractedData();
   arsenalProcessSelection();
   reportViolations();
 }

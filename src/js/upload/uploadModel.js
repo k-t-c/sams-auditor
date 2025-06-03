@@ -94,8 +94,15 @@ function uploadParseRow(row) {
     }
   }
 }
+
+function uploadProcessExtractedData() {
+  // populate the initiator.transaction arrays and all their variants here.
+  for (const row of window.extractedData) {
+    uploadParseRow(row);
+  }
+}
+
 function uploadAnalyzeRow(row, selectedItem) {
-  uploadParseRow(row);
   const description = row.description || "";
   const doneAt = row.doneAt || "";
 
