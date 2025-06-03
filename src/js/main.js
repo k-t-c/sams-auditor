@@ -1,3 +1,4 @@
+const APP_VERSION = 0;
 // upload component stuff
 document.getElementById("csvUpload").addEventListener("change", function (e) {
   const file = e.target.files[0];
