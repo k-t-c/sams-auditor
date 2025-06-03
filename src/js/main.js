@@ -1,4 +1,30 @@
 const APP_VERSION = 0;
+
+function showMessage(msg) {
+  const container = document.getElementById("toastContainer");
+  const toast = document.createElement("div");
+
+  toast.innerText = msg;
+  toast.style.background = "rgba(0, 0, 0, 0.8)";
+  toast.style.color = "#fff";
+  toast.style.padding = "0.5em 1em";
+  toast.style.margin = "1em";
+  toast.style.borderRadius = "4px";
+  toast.style.fontSize = "0.9rem";
+  toast.style.boxShadow = "0 2px 6px rgba(0,0,0,0.3)";
+  toast.style.opacity = "1";
+  toast.style.transition = "opacity 0.4s ease-out";
+
+  container.appendChild(toast);
+
+  setTimeout(() => {
+    toast.style.opacity = "0";
+    setTimeout(() => {
+      container.removeChild(toast);
+    }, 400);
+  }, 2000);
+}
+
 // upload component stuff
 document.getElementById("csvUpload").addEventListener("change", function (e) {
   const file = e.target.files[0];

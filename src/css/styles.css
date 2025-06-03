@@ -86,3 +86,14 @@ select#arsenalItemSelector {
 #itemLimitsView form > div label {
   display: none;
 }
+
+#toastContainer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    pointer-events: none;
+    display: flex;
+    justify-content: center;
+    z-index: 9999;
+}
