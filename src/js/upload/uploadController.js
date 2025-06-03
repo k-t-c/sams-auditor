@@ -21,4 +21,5 @@ function uploadDataReady() {
   uploadProcessExtractedData();
   arsenalProcessSelection();
   reportViolations();
+  showMessage("CSV file processed");
 }

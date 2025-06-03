@@ -44,4 +44,5 @@ function limitsUpdated() {
   localStorage.setItem("itemDefinitions", JSON.stringify(window.itemDefinitions));
   limitsRenderItems();
   reportViolations();
+  showMessage("Limits Updated");
 }
