@@ -8,6 +8,7 @@ function limitsRenderItems() {
   itemLimitsViewDiv.innerHTML = "";
   
   const resetAllButton = document.createElement("button");
+  resetAllButton.type = "button";
   resetAllButton.id = "limitsResetAll";
   resetAllButton.innerHTML = "Reset All to Default";
   resetAllButton.addEventListener("click", limitsResetAllToDefault,);
@@ -82,6 +83,7 @@ function limitsRenderItems() {
 
     if (!limitsItemIsDefault(itemName)) {
         const resetItemButton = document.createElement("button");
+        resetItemButton.type = "button";
         resetItemButton.id = `limitsReset${itemName.replace(" ", "-")}`;
         resetItemButton.innerHTML = "Reset";
         resetItemButton.dataset.itemName = itemName;
