@@ -22,4 +22,5 @@ function uploadDataReady() {
   arsenalProcessSelection();
   reportViolations();
   showMessage("CSV file processed");
+  enableTabs();
 }

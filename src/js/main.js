@@ -49,11 +49,12 @@ document.getElementById("csvUpload").addEventListener("change", function (e) {
 window.addEventListener("DOMContentLoaded", arsenalPopulateItemDropdown);
 
 // tabs stuff
-document.addEventListener("DOMContentLoaded", () => {
+function enableTabs () {
   const tabButtons = document.querySelectorAll(".tab-button");
   const tabContents = document.querySelectorAll(".tab-content");
 
   tabButtons.forEach((button) => {
+    button.classList.remove("disabled");
     button.addEventListener("click", () => {
       const target = button.dataset.tab;
 
@@ -65,4 +66,4 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
   });
-});
+}

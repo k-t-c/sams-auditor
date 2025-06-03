@@ -44,6 +44,11 @@ select#arsenalItemSelector {
     border-bottom: 1px solid #fff;
 }
 
+.tab-button.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
 .tab-content {
     display: none;
 }
