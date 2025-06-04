@@ -464,3 +464,27 @@ const ITEM_DEFINITIONS = {
     },
   },
 };
+
+function itemsStoreDefinitions (itemName = null, newItem = null) {
+  if(window.itemDefinitions) {
+    try {
+      if(itemName && newItem) window.itemDefinitions[itemName] = newItem;
+      localStorage.setItem("itemDefinitions", JSON.stringify(window.itemDefinitions));
+      console.log(`window.itemDefinitions updated with ${itemName}`);
+    } catch (error) {
+      showMessage("Error setting item definitions");
+      console.error(error);
+    }
+  }
+}
+
+function itemsCheckForNewItemDefinitions () {
+  let currentItemDefinitions = getItemDefinitions();
+  for (const itemName of Object.keys(ITEM_DEFINITIONS)) {
+    if (!currentItemDefinitions[itemName]) {
+      console.log("new default item definition found >", ITEM_DEFINITIONS[itemName]);
+      const newItem = JSON.parse(JSON.stringify(ITEM_DEFINITIONS[itemName]));
+      itemsStoreDefinitions(itemName, newItem);
+    }
+  }
+}
