@@ -488,3 +488,32 @@ function itemsCheckForNewItemDefinitions () {
     }
   }
 }
+
+/**
+ * 
+ * @returns array of item names that are alphabetically sorted, but have Medical Kit and Bandage at the start
+ */
+function itemsGetCustomSortedItemsNames() {
+  let items = Object.keys(window.itemDefinitions) || [];
+  if (!items) {
+    handleError("No items found while populating arsenal purchases dropdown!", "An error occurred. See console for details.");
+    return;
+  }
+  try {
+    medkitIndex = items.indexOf("Medical Kit");
+    if (medkitIndex > -1) {
+      items.splice(medkitIndex, 1);
+    }
+    bandageIndex = items.indexOf("Bandage");
+    if (bandageIndex > -1) {
+      items.splice(bandageIndex, 1);
+    }
+    
+    items = items.sort();
+    items.unshift("Bandage");
+    items.unshift("Medical Kit");
+    return items;
+  } catch (error) {
+    handleError(error, "An error occurred. See console for details.");
+  }
+}

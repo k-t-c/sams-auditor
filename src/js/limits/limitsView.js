@@ -17,7 +17,8 @@ function limitsRenderItems() {
 
   const form = document.createElement("form");
   form.id = "itemLimitsForm";
-  for (const itemName of Object.keys(items)) {
+  const itemNames = itemsGetCustomSortedItemsNames();
+  for (const itemName of itemNames) {
     const id = "limit-" + itemName.replace(" ", "-");
     const an = items[itemName].acceptableNumbers;
 

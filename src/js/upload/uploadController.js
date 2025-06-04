@@ -16,10 +16,13 @@ function uploadDataReady() {
       <p>Item Limits: Set custom limits on item purchases</p>
     `
   );
+  arsenalDataReady();
   limitsDataReady();
+  
   uploadProcessExtractedData();
   arsenalProcessSelection();
   reportViolations();
+  
   showMessage("CSV file processed");
   enableTabs();
 }
@@ -33,10 +36,4 @@ document.getElementById("csvUpload").addEventListener("change", function (e) {
   uploadProcessCSV(file);
 
   // reattach onchange listener to dropdown in case user wants to refilter
-  document.getElementById("arsenalItemSelector").onchange = () => {
-    arsenalProcessSelection();
-  };
-  document.getElementById("arsenalChartType").addEventListener("change", function (e) {
-    arsenalProcessSelection();
-  });
 });

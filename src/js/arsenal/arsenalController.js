@@ -5,21 +5,32 @@ function arsenalPopulateItemDropdown() {
   // Remove old selector if it exists
   const oldSelector = document.getElementById("arsenalItemSelector");
   if (oldSelector) {
-      oldSelector.remove();
+    oldSelector.remove();
   }
 
   const selector = document.createElement("select");
   selector.id = "arsenalItemSelector";
 
-  for (const item of Object.keys(window.itemDefinitions)) {
-      const option = document.createElement("option");
-      option.value = item;
-      option.textContent = item;
-      selector.appendChild(option);
+  let items = itemsGetCustomSortedItemsNames();
+
+  for (const item of items) {
+    const option = document.createElement("option");
+    option.value = item;
+    option.textContent = item;
+    selector.appendChild(option);
   }
 
   // Insert at the top of the arsenal view
   arsenalView.insertBefore(selector, arsenalView.firstChild);
+  
+  document.getElementById("arsenalItemSelector").addEventListener("change", function (e) {
+    arsenalProcessSelection();
+  });
+  document.getElementById("arsenalChartType").addEventListener("change", function (e) {
+    arsenalProcessSelection();
+  });
 }
 
-window.addEventListener("DOMContentLoaded", arsenalPopulateItemDropdown);
+function arsenalDataReady() {
+  arsenalPopulateItemDropdown();
+}
