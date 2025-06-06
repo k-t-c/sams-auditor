@@ -38,7 +38,9 @@ function limitsRenderItems() {
     const singlePurchaseInput = document.createElement("input");
     singlePurchaseInput.id = id + "-singlePurchaseInput";
     singlePurchaseInput.type = "number";
-    singlePurchaseInput.value = an.perSingleTransaction;
+    const singlePurchaseValue = an.perSingleTransaction;
+    singlePurchaseInput.value = singlePurchaseValue;
+    singlePurchaseInput.setAttribute("data-value", singlePurchaseValue);
 
     const span2 = document.createElement("span");
     span2.innerHTML = ` purchases in a single transaction or `;
@@ -48,7 +50,9 @@ function limitsRenderItems() {
     const perTimeIntervalInput = document.createElement("input");
     perTimeIntervalInput.id = id + "-perTimeIntervalInput";
     perTimeIntervalInput.type = "number";
-    perTimeIntervalInput.value = an.perTimeInterval;
+    const perTimeIntervalValue = an.perTimeInterval;
+    perTimeIntervalInput.value = perTimeIntervalValue;
+    perTimeIntervalInput.setAttribute("data-value", perTimeIntervalValue);
 
     const span3 = document.createElement("span");
     span3.innerHTML = ` purchases within `;
@@ -58,8 +62,12 @@ function limitsRenderItems() {
     const timeIntervalInput = document.createElement("input");
     timeIntervalInput.id = id + "-timeIntervalInput";
     timeIntervalInput.type = "number";
-    timeIntervalInput.value = an.timeDescription.split(" ")[0];
+    const timeIntervalValue = an.timeDescription.split(" ")[0];
+    timeIntervalInput.value = timeIntervalValue;
+    timeIntervalInput.setAttribute("data-value", timeIntervalValue);
 
+    const selectLabel = document.createElement("label");
+    selectLabel.htmlFor = id + "-selectLabel";
     const select = document.createElement("select");
     select.id = id + "-timeIntervalSelect";
     select.innerHTML = `
@@ -69,7 +77,9 @@ function limitsRenderItems() {
             <option>Days</option>
             <option>Weeks</option>
         `;
-    select.value = an.timeDescription.split(" ")[1];
+    const timeDescriptionValue = an.timeDescription.split(" ")[1];
+    select.value = timeDescriptionValue;
+    select.setAttribute("data-value", timeDescriptionValue);
 
     div.appendChild(span0);
     div.appendChild(span1);
@@ -79,7 +89,9 @@ function limitsRenderItems() {
     div.appendChild(perTimeIntervalLabel);
     div.appendChild(perTimeIntervalInput);
     div.appendChild(span3);
+    div.appendChild(timeIntervalLabel);
     div.appendChild(timeIntervalInput);
+    div.appendChild(selectLabel);
     div.appendChild(select);
 
     if (!limitsItemIsDefault(itemName)) {
