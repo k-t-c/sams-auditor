@@ -10,6 +10,8 @@ function limitsDataReady() {
 
   const itemLimitsForm = document.querySelector("#itemLimitsView");
   itemLimitsForm.addEventListener("change", (event) => {
+    const currentValue = event.target.dataset.value;
+    const newValue = event.target.value;
     limitsHandleChange(event);
   });
 }
