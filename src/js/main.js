@@ -1,5 +1,10 @@
 const APP_VERSION = 0;
 
+function isInt(value) {
+  const x = parseFloat(value);
+  return !isNaN(value) && Number.isSafeInteger(x);
+}
+
 function showMessage(msg = "") {
   if (msg && typeof msg === "string") {
     const container = document.getElementById("toastContainer");
@@ -29,9 +34,9 @@ function showMessage(msg = "") {
   }
 }
 
-function handleError (error = null, msg = "") {
+function handleError (error = null, msg = "An error has occurred. See console for details.") {
   console.error(error);
-  if(msg) showMessage(msg);
+  showMessage(msg);
 }
 
 // tabs stuff
