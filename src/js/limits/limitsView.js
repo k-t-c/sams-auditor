@@ -1,3 +1,18 @@
+function limitsMakeInputNumericOnly(el) {
+  el.type = "number";
+  el.setAttribute("inputmode", "numeric");
+  el.addEventListener("keypress", function (evt) {
+    if (evt.key === "Enter") {
+      // allow enter keypresses
+      return;
+    }
+    if (evt.which < 48 || evt.which > 57) {
+      // prevent anything else that's not numeric
+      evt.preventDefault();
+    }
+  });
+}
+
 function limitsRenderItems() {
   let items = window.itemDefinitions;
   if (!items) {
@@ -11,7 +26,7 @@ function limitsRenderItems() {
   resetAllButton.type = "button";
   resetAllButton.id = "limitsResetAll";
   resetAllButton.innerHTML = "Reset All to Default";
-  resetAllButton.addEventListener("click", limitsResetAllToDefault,);
+  resetAllButton.addEventListener("click", limitsResetAllToDefault);
   resetAllButton.style = "margin: auto auto 1em auto";
   itemLimitsViewDiv.appendChild(resetAllButton);
 
@@ -37,7 +52,7 @@ function limitsRenderItems() {
     singlePurchaseLabel.htmlFor = id + "-singlePurchaseLabel";
     const singlePurchaseInput = document.createElement("input");
     singlePurchaseInput.id = id + "-singlePurchaseInput";
-    singlePurchaseInput.type = "number";
+    limitsMakeInputNumericOnly(singlePurchaseInput);
     const singlePurchaseValue = an.perSingleTransaction;
     singlePurchaseInput.value = singlePurchaseValue;
     singlePurchaseInput.setAttribute("data-value", singlePurchaseValue);
@@ -49,7 +64,7 @@ function limitsRenderItems() {
     perTimeIntervalLabel.htmlFor = id + "-perTimeIntervalLabel";
     const perTimeIntervalInput = document.createElement("input");
     perTimeIntervalInput.id = id + "-perTimeIntervalInput";
-    perTimeIntervalInput.type = "number";
+    limitsMakeInputNumericOnly(perTimeIntervalInput);
     const perTimeIntervalValue = an.perTimeInterval;
     perTimeIntervalInput.value = perTimeIntervalValue;
     perTimeIntervalInput.setAttribute("data-value", perTimeIntervalValue);
@@ -61,7 +76,7 @@ function limitsRenderItems() {
     timeIntervalLabel.htmlFor = id + "-timeIntervalLabel";
     const timeIntervalInput = document.createElement("input");
     timeIntervalInput.id = id + "-timeIntervalInput";
-    timeIntervalInput.type = "number";
+    limitsMakeInputNumericOnly(timeIntervalInput);
     const timeIntervalValue = an.timeDescription.split(" ")[0];
     timeIntervalInput.value = timeIntervalValue;
     timeIntervalInput.setAttribute("data-value", timeIntervalValue);
@@ -95,17 +110,17 @@ function limitsRenderItems() {
     div.appendChild(select);
 
     if (!limitsItemIsDefault(itemName)) {
-        const resetItemButton = document.createElement("button");
-        resetItemButton.type = "button";
-        resetItemButton.id = `limitsReset${itemName.replace(" ", "-")}`;
-        resetItemButton.innerHTML = "Reset to Default";
-        resetItemButton.dataset.itemName = itemName;
-        const callback = function (event) {
-            const itemName = event.target.dataset.itemName;
-            limitsResetItemToDefault(itemName);
-        }
-        resetItemButton.addEventListener("click", callback);
-        div.appendChild(resetItemButton);
+      const resetItemButton = document.createElement("button");
+      resetItemButton.type = "button";
+      resetItemButton.id = `limitsReset${itemName.replace(" ", "-")}`;
+      resetItemButton.innerHTML = "Reset to Default";
+      resetItemButton.dataset.itemName = itemName;
+      const callback = function (event) {
+        const itemName = event.target.dataset.itemName;
+        limitsResetItemToDefault(itemName);
+      };
+      resetItemButton.addEventListener("click", callback);
+      div.appendChild(resetItemButton);
     }
 
     form.appendChild(div);
