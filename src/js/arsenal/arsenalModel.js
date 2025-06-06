@@ -132,6 +132,24 @@ let transactionsByType = {
   other: [],
 };
 
+function arsenalReset() {
+  transactions = [];
+  initiatorsByID = {};
+  itemsByName = {};
+  transactionsByType = {
+    arsenal: [],
+    check: [],
+    deposit: [],
+    invoice: [],
+    payment: [],
+    salary: [],
+    transferIn: [],
+    transferOut: [],
+    withdraw: [],
+    other: [],
+  };
+}
+
 function arsenalProcessSelection() {
   const selectedItem = document.getElementById("arsenalItemSelector").value || "";
   const arsenalChartType = document.getElementById("arsenalChartType")?.value || "bar";

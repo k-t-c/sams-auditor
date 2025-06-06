@@ -30,10 +30,8 @@ function uploadDataReady() {
 document.getElementById("csvUpload").addEventListener("change", function (e) {
   const file = e.target.files[0];
   if (!file) return;
-  
+  arsenalReset();
   uploadNoticeMsg("<p>Processing...</p>")
 
   uploadProcessCSV(file);
-
-  // reattach onchange listener to dropdown in case user wants to refilter
 });
