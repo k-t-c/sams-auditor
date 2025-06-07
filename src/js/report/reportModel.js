@@ -107,6 +107,8 @@ function reportCheckPurchaseViolationsGroupedByInitiator(initiators = [], itemDe
 //  plain text export helpers
 function reportBuildViolationsText(groupedViolations) {
   const lines = [];
+  lines.push(`Violations Report for ${window.firstDoneAt} to ${window.lastDoneAt}`);
+  lines.push("");
   for (const [initiatorID, { name, violations }] of Object.entries(groupedViolations)) {
     lines.push(`${name} (${initiatorID})`);
     violations.forEach((v) => {

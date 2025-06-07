@@ -15,6 +15,11 @@ function reportViolations() {
     return;
   }
 
+  const timeRange = document.createElement("h3");
+  timeRange.innerHTML = `Violations Report for ${window.firstDoneAt} to ${window.lastDoneAt}`;
+
+  targetDiv.appendChild(timeRange);
+
   ids.forEach((id) => {
     const { name, violations } = groupedViolations[id];
     const section = document.createElement("div");

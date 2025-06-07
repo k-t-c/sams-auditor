@@ -14,7 +14,7 @@ function reportExportViolationsReport() {
 
   const a = document.createElement("a");
   a.href = url;
-  a.download = `violations-report-${new Date().toISOString().slice(0, 10)}.txt`;
+  a.download = `violations-report-${window.firstDoneAt}-${window.lastDoneAt}.txt`;
   document.body.appendChild(a);
   a.click();
   setTimeout(() => {
