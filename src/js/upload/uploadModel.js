@@ -3,11 +3,48 @@ function uploadProcessCSV(file) {
     header: true,
     skipEmptyLines: true,
     complete: function (results) {
-      window.extractedData = results.data;
-      localStorage.setItem('extractedData', JSON.stringify(extractedData));
+      
+      // validate that it's a SAMS csv file
+      const requiredCols = [
+        "iban",
+        "action",
+        "doneBy",
+        "fromAccount",
+        "toAccount",
+        "amount",
+        "description",
+        "doneAt",
+      ];
+      const actualCols = results.meta.fields || [];
+      const missing = requiredCols.filter((col) => !actualCols.includes(col));
+      if (missing.length > 0) {
+        alert("Missing required column(s): " + missing.join(", "));
+        return;
+      }
+
+      // extract rows and alert if there'snone
+      const data = results.data;
+      if (!Array.isArray(data) || data.length === 0) {
+        alert("CSV contains no data rows.");
+        return;
+      }
+
+      // for reporting the time range
+      const firstDoneAt = data[0].doneAt;
+      const lastDoneAt = data[data.length - 1].doneAt;
+      
+      window.firstDoneAt = firstDoneAt;
+      window.lastDoneAt = lastDoneAt;
+
+      window.extractedData = data;
+      localStorage.setItem("extractedData", JSON.stringify(data));
 
       uploadCheckDataReady(results);
-    }
+    },
+    error: function (error) {
+      console.error("PapaParse error >", error);
+      alert("An error occurred while parsing the CSV file.");
+    },
   });
 }
 
