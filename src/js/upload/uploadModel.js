@@ -92,6 +92,7 @@ function uploadParseRow(row) {
     case "transferout":
       transaction = new Transaction(row);
       transactionsByType.transferOut.push(transaction);
+      break;
     case "withdraw":
       transaction = new Transaction(row);
       transactionsByType.withdraw.push(transaction);
