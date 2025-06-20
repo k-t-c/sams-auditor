@@ -28,41 +28,14 @@ class Transaction {
 class ArsenalTransaction extends Transaction {
   constructor(row) {
     super(row);
+    this.type = "Arsenal";
     const regex = /(\d+)x(.+?)\s+by\s+(.+?)\((\d+)\)/;
     const match = row.description.match(regex);
     if (match && match.length > 4) {
-      // console.log("arsenal purchase match >", match);
       this.quantity = parseInt(match[1] || 0);
       this.itemName = match[2] || "";
       this.initiatorName = (match[3] && match[3].trim()) || "";
       this.initiatorID = parseInt(match[4] || 0);
-      // console.log("final arsenal obj >", this);
-    }
-  }
-}
-class SalaryTransaction extends Transaction {
-  constructor(row) {
-    super(row);
-    const regex = /for (.+?)\((\d+)\)/;
-    const match = row.description.match(regex);
-    if (match && match.length > 2) {
-      // console.log("salary match >", match);
-      this.initiatorName = match[1] || "";
-      this.initiatorID = parseInt(match[2] || 0);
-      // console.log("final salary obj >", this);
-    }
-  }
-}
-class InvoiceTransaction extends Transaction {
-  constructor(row) {
-    super(row);
-    const regex = /charging (.+?)\. (None|Silver|Gold|Platinum) Insurance\. Reference number (\d+)/;
-    const match = row.description.match(regex);
-    if (match) {
-      // console.log("invoice match >", match);
-      this.insuranceLevel = match[2] || "";
-      this.invoiceNumber = parseInt(match[3] || 0);
-      // console.log("final invoice obj >", this);
     }
   }
 }
@@ -70,6 +43,7 @@ class InvoiceTransaction extends Transaction {
 class CheckTransaction extends Transaction {
   constructor(row) {
     super(row);
+    this.type = "Check";
     const regex = /by (.+?)\((\d+)\) for (\d+)\((.+?)\)\. Reason: (.+)/;
     const match = row.description.match(regex);
     if (match && match.length > 5) {
@@ -81,6 +55,75 @@ class CheckTransaction extends Transaction {
     }
   }
 }
+
+class DepositTransaction extends Transaction {
+  constructor(row) {
+    super(row);
+    this.type = "Deposit";
+  }
+}
+
+class InvoiceTransaction extends Transaction {
+  constructor(row) {
+    super(row);
+    this.type = "Invoice";
+    const regex = /charging (.+?)\. (None|Silver|Gold|Platinum) Insurance\. Reference number (\d+)/;
+    const match = row.description.match(regex);
+    if (match) {
+      this.insuranceLevel = match[2] || "";
+      this.invoiceNumber = parseInt(match[3] || 0);
+    }
+  }
+}
+
+class OtherTransaction extends Transaction {
+  constructor(row) {
+    super(row);
+    this.type = "Other";
+  }
+}
+
+class PaymentTransaction extends Transaction {
+  constructor(row) {
+    super(row);
+    this.type = "Payment";
+  }
+}
+
+class SalaryTransaction extends Transaction {
+  constructor(row) {
+    super(row);
+    this.type = "Salary";
+    const regex = /for (.+?)\((\d+)\)/;
+    const match = row.description.match(regex);
+    if (match && match.length > 2) {
+      this.initiatorName = match[1] || "";
+      this.initiatorID = parseInt(match[2] || 0);
+    }
+  }
+}
+
+class TransferInTransaction extends Transaction {
+  constructor(row) {
+    super(row);
+    this.type = "TransferIn";
+  }
+}
+
+class TransferOutTransaction extends Transaction {
+  constructor(row) {
+    super(row);
+    this.type = "TransferOut";
+  }
+}
+
+class WithdrawTransaction extends Transaction {
+  constructor(row) {
+    super(row);
+    this.type = "Withdraw";
+  }
+}
+
 class Purchase {
   constructor({ quantity, item, buyer, date, raw }) {
     this.quantity = quantity;
@@ -100,6 +143,36 @@ class Initiator {
 
   addTransaction(transaction) {
     this.transactions.push(transaction);
+  }
+  getAllTransactions() {
+    return this.transactions;
+  }
+  getArsenalTransactions() {
+    return this.transactions.filter(transaction => transaction instanceof ArsenalTransaction);
+  }
+  getCheckTransactions() {
+    return this.transactions.filter(transaction => transaction instanceof CheckTransaction);
+  }
+  getDepositTransactions() {
+    return this.transactions.filter(transaction => transaction instanceof DepositTransaction);
+  }
+  getInvoiceTransactions() {
+    return this.transactions.filter(transaction => transaction instanceof InvoiceTransaction);
+  }
+  getPaymentTransactions() {
+    return this.transactions.filter(transaction => transaction instanceof PaymentTransaction);
+  }
+  getSalaryTransactions() {
+    return this.transactions.filter(transaction => transaction instanceof SalaryTransaction);
+  }
+  getTransferInTransactions() {
+    return this.transactions.filter(transaction => transaction instanceof TransferInTransaction);
+  }
+  getTransferOutTransactions() {
+    return this.transactions.filter(transaction => transaction instanceof TransferOutTransaction);
+  }
+  getWithdrawTransactions() {
+    return this.transactions.filter(transaction => transaction instanceof WithdrawTransaction);
   }
 }
 

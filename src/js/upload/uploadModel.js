@@ -57,7 +57,7 @@ function uploadParseRow(row) {
 
   switch (row.action) {
     case "deposit":
-      transaction = new Transaction(row);
+      transaction = new DepositTransaction(row);
       transactionsByType.deposit.push(transaction);
       break;
     case "payment":
@@ -77,7 +77,7 @@ function uploadParseRow(row) {
         break;
       }
 
-      transaction = new Transaction(row);
+      transaction = new PaymentTransaction(row);
       transactionsByType.payment.push(transaction);
       break;
     case "transferin":
@@ -86,19 +86,19 @@ function uploadParseRow(row) {
         transactionsByType.invoice.push(transaction);
         break;
       }
-      transaction = new Transaction(row);
+      transaction = new TransferInTransaction(row);
       transactionsByType.transferIn.push(transaction);
       break;
     case "transferout":
-      transaction = new Transaction(row);
+      transaction = new TransferOutTransaction(row);
       transactionsByType.transferOut.push(transaction);
       break;
     case "withdraw":
-      transaction = new Transaction(row);
+      transaction = new WithdrawTransaction(row);
       transactionsByType.withdraw.push(transaction);
       break;
     default:
-      transaction = new Transaction(row);
+      transaction = new OtherTransaction(row);
       transactionsByType.other.push(transaction);
       break;
   }
