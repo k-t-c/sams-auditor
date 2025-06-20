@@ -102,3 +102,8 @@ select#arsenalItemSelector {
     justify-content: center;
     z-index: 9999;
 }
+
+#peopleDropdownsContainer {
+    display: flex;
+    flex-direction: row;
+}
