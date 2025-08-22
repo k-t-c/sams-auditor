@@ -5,6 +5,19 @@ function isInt(value) {
   return !isNaN(value) && Number.isSafeInteger(x);
 }
 
+function capitalizeFirstLetter(val) {
+    if (val && val.length > 0) {
+      return String(val).charAt(0).toUpperCase() + String(val).slice(1);
+    }
+    handleError("Invalid string passed to capitalizeFirstLetter");
+}
+
+function wrapSpan(txt) {
+  let returnSpan = document.createElement("span");
+  returnSpan.innerHTML = txt;
+  return returnSpan;
+}
+
 function showMessage(msg = "") {
   if (msg && typeof msg === "string") {
     const container = document.getElementById("toastContainer");
@@ -34,9 +47,10 @@ function showMessage(msg = "") {
   }
 }
 
-function handleError (error = null, msg = "An error has occurred. See console for details.") {
+function handleError (error = null, msgForUser = "An error has occurred. See console for details.") {
   console.error(error);
-  showMessage(msg);
+  console.trace(error);
+  showMessage(msgForUser);
 }
 
 // tabs stuff
