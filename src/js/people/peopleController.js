@@ -18,10 +18,11 @@ function peopleDropdownAccept(v){
 
 function peopleHandleDropdownChange (event) {
   const peopleDatalistValue = document.getElementById("peopleDatalistInput").value;
-  const personIDChoice = document.querySelector(`#peopleDatalist option[value="${peopleDatalistValue}"]`).dataset.id;
-  const transactionTypeChoice = document.getElementById("peopleTransactionTypeSelect").value;
-  console.log("ID >", personIDChoice);
-  console.log("Transaction Type >", transactionTypeChoice);
+  const personID = peopleDatalistValue && document.querySelector(`#peopleDatalist option[value="${peopleDatalistValue}"]`).dataset.id || null;
+  const renderType = document.getElementById("peopleTransactionTypeSelect").value;
+  console.log("ID >", personID);
+  console.log("Transaction Type >", renderType);
+  peopleRenderTransactions(peopleDatalistValue, personID, renderType);
 }
 
 function peoplePopulateItemDropdown () {
