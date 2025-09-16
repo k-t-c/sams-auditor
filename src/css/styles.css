@@ -102,3 +102,56 @@ select#arsenalItemSelector {
     justify-content: center;
     z-index: 9999;
 }
+
+#peopleDropdownsContainer {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.peopleReportRow {
+    display: flex;
+    flex-direction: row;
+}
+
+.transaction {
+    display: grid;
+    margin-bottom: 0.5rem;
+}
+
+.transactionHeader{
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.arsenalTransaction{
+    grid-template-columns: 5% 26% 20%;
+}
+.checkTransaction{
+    grid-template-columns: 5% 5% 5% 26% 20%;
+}
+.depositTransaction{
+    grid-template-columns: 5% 5% 5% 26% 20%;
+}
+.invoiceTransaction{
+    grid-template-columns: 5% 5% 5% 26% 20%;
+}
+.paymentTransaction{
+    grid-template-columns: 5% 5% 5% 26% 20%;
+}
+.salaryTransaction{
+    grid-template-columns: 5% 5% 5% 26% 20%;
+}
+.transferInTransaction{
+    grid-template-columns: 5% 5% 5% 26% 20%;
+}
+.transferOutTransaction{
+    grid-template-columns: 5% 5% 5% 26% 20%;
+}
+.withdrawTransaction{
+    grid-template-columns: 5% 5% 5% 26% 20%;
+}
+.otherTransaction{
+    grid-template-columns: 5% 5% 5% 26% 20%;
+}

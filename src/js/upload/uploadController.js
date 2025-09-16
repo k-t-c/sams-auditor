@@ -23,6 +23,8 @@ function uploadDataReady() {
   arsenalProcessSelection();
   reportViolations();
   
+  peopleDataReady();
+  
   showMessage("CSV file processed");
   enableTabs();
 }

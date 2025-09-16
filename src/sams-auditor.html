@@ -10,6 +10,7 @@
       <button class="tab-button disabled" data-tab="arsenalView">Arsenal Purchases</button>
       <button class="tab-button disabled" data-tab="reportView">Report</button>
       <button class="tab-button disabled" data-tab="itemLimitsView">Item Limits</button>
+      <button class="tab-button disabled" data-tab="peopleView">People</button>
     </nav>
 
     <div id="toastContainer"></div>
@@ -56,6 +57,40 @@
 
     <div id="itemLimitsView" class="tab-content"></div>
     
+    <div id="peopleView" class="tab-content">
+      <div id="peopleDropdownsContainer">
+        <div id="peopleDatalistContainer">
+          <label for="peopleDatalistInput">Choose a person:</label>
+          <input id="peopleDatalistInput" 
+            type="text" 
+            name="peopleDatalist" 
+            list="peopleDatalist"
+            placeholder="Start typing..."
+            autocomplete="off">
+          <datalist id="peopleDatalist">
+          </datalist>
+        </div>
+        <div id="peopleTransactionTypeSelectContainer">
+          <label for="peopleTransactionTypeSelect">Choose a transaction type:</label>
+          <select id="peopleTransactionTypeSelect">
+            <option value="all">All</option>
+            <option value="arsenal">Arsenal</option>
+            <option value="check">Check</option>
+            <option value="deposit">Deposit</option>
+            <option value="invoice">Invoice</option>
+            <option value="payment">Payment</option>
+            <option value="salary">Salary</option>
+            <option value="transferIn">Transfer In</option>
+            <option value="transferOut">Transfer Out</option>
+            <option value="withdraw">Withdrawal</option>
+            <option value="other">Other</option>
+
+          </select>
+        </div>
+      </div>
+      <div id="peopleReportContainer">Data not available.</div>
+    </div>
+    
     <!-- Item Definitions JS files -->
     <script src="./js/items.js"></script>
 
@@ -83,6 +118,11 @@
     <script src="./js/limits/limitsModel.js"></script>
     <script src="./js/limits/limitsView.js"></script>
     <script src="./js/limits/limitsController.js"></script>
+    
+    <!-- People JS files -->
+    <script src="./js/people/peopleModel.js"></script>
+    <script src="./js/people/peopleView.js"></script>
+    <script src="./js/people/peopleController.js"></script>
 
     <!-- Upload JS files -->
     <script src="./js/upload/uploadModel.js"></script>
