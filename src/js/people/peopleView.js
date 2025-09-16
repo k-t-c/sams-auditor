@@ -16,55 +16,51 @@ function peopleRenderTransactions(peopleDatalistValue = null, personID = null, r
 
   switch (renderType) {
     case "all":
-      transactions = initiatorsByID[personID].getAllTransactions() || [];
+      container.appendChild(initiatorsByID[personID].getRenderableAllTransactions());
       break;
     case "arsenal":
-      transactions = initiatorsByID[personID].getArsenalTransactions() || [];
-      headerDiv.appendChild(wrapSpan("From Acct"));
-      headerDiv.appendChild(wrapSpan("To Acct"));
-      headerDiv.appendChild(wrapSpan("Amount"));
-      headerDiv.appendChild(wrapSpan("Description"));
-      headerDiv.appendChild(wrapSpan("Date"));
-
-      headerDiv.className = "transaction transactionHeader arsenalTransaction";
+      //let container = document.getElementById("peopleReportContainer");
+      container.appendChild(initiatorsByID[personID].getRenderableArsenalTransactions());
       break;
     case "check":
-      transactions = initiatorsByID[personID].getCheckTransactions() || [];
+      // TODO: FIX CHECK TRANSACTION DETECTION
+      container.appendChild(initiatorsByID[personID].getRenderableCheckTransactions());
       break;
     case "deposit":
-      transactions = initiatorsByID[personID].getDepositTransactions() || [];
+      container.appendChild(initiatorsByID[personID].getRenderableDepositTransactions());
       break;
     case "invoice":
-      transactions = initiatorsByID[personID].getInvoiceTransactions() || [];
+      container.appendChild(initiatorsByID[personID].getRenderableInvoiceTransactions());
       break;
     case "payment":
-      transactions = initiatorsByID[personID].getPaymentTransactions() || [];
+      container.appendChild(initiatorsByID[personID].getRenderablePaymentTransactions());
       break;
     case "salary":
-      transactions = initiatorsByID[personID].getSalaryTransactions() || [];
+      container.appendChild(initiatorsByID[personID].getRenderableSalaryTransactions());
       break;
     case "transferIn":
-      transactions = initiatorsByID[personID].getTransferInTransactions() || [];
+      container.appendChild(initiatorsByID[personID].getRenderableTransferInTransactions());
       break;
     case "transferOut":
-      transactions = initiatorsByID[personID].getTransferOutTransactions() || [];
+      container.appendChild(initiatorsByID[personID].getRenderableTransferOutTransactions());
       break;
     case "withdraw":
-      transactions = initiatorsByID[personID].getWithdrawTransactions() || [];
+      container.appendChild(initiatorsByID[personID].getRenderableWithdrawTransactions());
       break;
     case "other":
+      console.log("peopleRenderTransactions >", "TODO >", renderType);
       break;
     default:
       console.log("peopleRenderTransactions >", "TODO >", renderType);
       break;
   }
   console.log("transactions >", transactions);
-  if (transactions.length <= 0) {
+  /* if (transactions.length <= 0) {
     container.innerHTML = `No ${renderType} transactions by ${personID}`
     return;
   }
   container.appendChild(headerDiv);
-  peopleRenderFilteredTransactions (container, peopleDatalistValue, renderType, transactions);
+  peopleRenderFilteredTransactions (container, peopleDatalistValue, renderType, transactions); */
 }
 function convertKvToDivPair(key, value) {
   let returnDiv = document.createElement("div");

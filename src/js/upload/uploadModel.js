@@ -107,8 +107,14 @@ function uploadParseRow(row) {
 
   // handle person
 
-  initiatorName = transaction.initiatorName;
+  initiatorName = transaction.initiatorName || transaction.doneBy;
   initiatorID = transaction.initiatorID;
+  if(initiatorID === null && initiatorName === "State Clerk") {
+    const regex = new RegExp(`Check payment by\\s+(.+?)\\((\\d+)\\)`, "i");
+    const match = transaction.description.match(regex);
+    initiatorName = match[1];
+    initiatorID = match[2];
+  }
   if (!initiatorsByID[initiatorID]) {
     initiator = new Initiator(initiatorName, initiatorID);
     initiator.addTransaction(transaction);

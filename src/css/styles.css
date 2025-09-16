@@ -122,8 +122,36 @@ select#arsenalItemSelector {
 
 .transactionHeader{
     font-weight: bold;
+    margin-bottom: 0.5rem;
 }
 
 .arsenalTransaction{
-    grid-template-columns: 6% 5% 5% 26% 20%;
+    grid-template-columns: 5% 26% 20%;
+}
+.checkTransaction{
+    grid-template-columns: 5% 5% 5% 26% 20%;
+}
+.depositTransaction{
+    grid-template-columns: 5% 5% 5% 26% 20%;
+}
+.invoiceTransaction{
+    grid-template-columns: 5% 5% 5% 26% 20%;
+}
+.paymentTransaction{
+    grid-template-columns: 5% 5% 5% 26% 20%;
+}
+.salaryTransaction{
+    grid-template-columns: 5% 5% 5% 26% 20%;
+}
+.transferInTransaction{
+    grid-template-columns: 5% 5% 5% 26% 20%;
+}
+.transferOutTransaction{
+    grid-template-columns: 5% 5% 5% 26% 20%;
+}
+.withdrawTransaction{
+    grid-template-columns: 5% 5% 5% 26% 20%;
+}
+.otherTransaction{
+    grid-template-columns: 5% 5% 5% 26% 20%;
 }
