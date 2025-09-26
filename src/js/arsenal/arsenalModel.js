@@ -139,10 +139,16 @@ class Initiator {
     this.name = name;
     this.id = id;
     this.transactions = [];
+    this.salaryTransactions = [];
+    this.totalSalary = 0;
   }
 
   addTransaction(transaction) {
     this.transactions.push(transaction);
+  }
+  addSalary(transaction) {
+    this.totalSalary += transaction.amount;
+    this.salaryTransactions.push(transaction);
   }
   getAllTransactions() {
     return this.transactions;
