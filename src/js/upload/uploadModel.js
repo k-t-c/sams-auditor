@@ -55,6 +55,8 @@ function uploadParseRow(row) {
   let initiatorName;
   let initiatorID;
 
+  let isSalaryTransaction = false;
+
   switch (row.action) {
     case "deposit":
       transaction = new DepositTransaction(row);
@@ -67,6 +69,7 @@ function uploadParseRow(row) {
         break;
       }
       if (row.doneBy === "State Clerk" && row.description.includes("Salary")) {
+        isSalaryTransaction = true;
         transaction = new SalaryTransaction(row);
         transactionsByType.salary.push(transaction);
         break;
@@ -122,6 +125,9 @@ function uploadParseRow(row) {
   } else {
     initiator = initiatorsByID[initiatorID];
     initiator.addTransaction(transaction);
+  }
+  if (isSalaryTransaction) {
+    initiator.addSalary(transaction);
   }
 
   // handle item
