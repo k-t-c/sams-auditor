@@ -116,7 +116,7 @@ function financialsGetAdjustedBonuses (moneyPoolForBonuses = 0, excludedEmployee
     100095: 1, // Miki Ryan, Overseer
     100103: 2, // Emmi Dalton, Underseer
     100144: 5, // Juliet Wolf, Operator
-    100153: 3, // Astrid Flores, Attending
+    100153: 4, // Astrid Flores, Resident
     100169: 4, // Salvatore Romano, Resident
     100207: 5, // Howard Holmes, Operator
     100277: 4, // Isabella Hartley, Resident
@@ -137,12 +137,12 @@ function financialsGetAdjustedBonuses (moneyPoolForBonuses = 0, excludedEmployee
     101264: 6, // Coomah Black, Initiate
     101454: 5, // Tommy Tsunami, Operator
     101620: 5, // Miles Ruhk, Operator
-    101691: 4, // Pepper Flu, Resident
+    101691: 4, // Pepper Flu, Scrub
     101782: 6, // Nathan Walkler, Initiate
     101791: 6, // Ethan McPherson-Jones, Initiate
-    101804: 4, // Juiliet Valentine, Specialist
+    101804: 5, // Juiliet Valentine, Operator
     101918: 5, // Anais Etherington, Operator
-    101990: 6, // Jack Skellebones, Intern
+    101990: 6, // Jack Skellebones Intern
     102015: 6, // Megan Saskamoose, Intern
   }
   Object.keys(salaryByID).forEach(id => {
@@ -174,7 +174,7 @@ function financialsGetAdjustedBonuses (moneyPoolForBonuses = 0, excludedEmployee
       let adjustedBonus = (adjustedSalary / adjustedSalariesTotal) * moneyPoolForBonuses;
       salaryByID[id].adjustedBonus = adjustedBonus;
       totalOfAllBonuses += adjustedBonus
-      salaryByID[id].adjustedBonus = (Math.round(adjustedBonus * 100) / 100).toFixed(2);
+      salaryByID[id].adjustedBonus = (Math.round(adjustedBonus * 100) / 100).toFixed(0);
       //console.log(`${id} ${salaryByID[id].name} has earned ${salaryByID[id].totalSalary}, a bonus of ${salaryByID[id].earnedBonus}, and an adjusted bonus of ${salaryByID[id].adjustedBonus}`);
       console.log(`${id} ${salaryByID[id].name} has earned an adjusted bonus of ${salaryByID[id].adjustedBonus}`);
     }
