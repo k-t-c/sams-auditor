@@ -14,12 +14,14 @@ function uploadDataReady() {
       <p>Arsenal Purchases: Detailed arsenal purchases by item</p>
       <p>Report:  View a report of detected arsenal purchase violations</p>
       <p>Item Limits: Set custom limits on item purchases</p>
+      <p>People: View reports on individuals.</p>
     `
   );
   arsenalDataReady();
   limitsDataReady();
   
   uploadProcessExtractedData();
+  itemsCheckForMissingItemDefinitions();
   arsenalProcessSelection();
   reportViolations();
   
