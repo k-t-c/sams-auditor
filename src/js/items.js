@@ -223,36 +223,36 @@ const ITEM_DEFINITIONS = {
       timeDescription: "0 Seconds",
     },
   },
-  "Pack of Cigarettes": {
+  "Pack Of Cigarettes": {
     acceptableNumbers: {
       perSingleTransaction: 1,
       perTimeInterval: 1,
-      timeInterval: 14400000,
-      timeDescription: "4 Hours",
+      timeInterval: 604800000,
+      timeDescription: "1 Weeks",
     },
   },
-  "Pack of Cigars": {
+  "Pack Of Cigars": {
     acceptableNumbers: {
       perSingleTransaction: 1,
       perTimeInterval: 1,
-      timeInterval: 14400000,
-      timeDescription: "4 Hours",
+      timeInterval: 604800000,
+      timeDescription: "1 Weeks",
     },
   },
   "Paper": {
     acceptableNumbers: {
-      perSingleTransaction: 1,
-      perTimeInterval: 1,
+      perSingleTransaction: 10,
+      perTimeInterval: 10,
       timeInterval: 300000,
       timeDescription: "5 Minutes",
     },
   },
   "Prepaid Fuel Card": {
     acceptableNumbers: {
-      perSingleTransaction: 0,
-      perTimeInterval: 0,
-      timeInterval: 0,
-      timeDescription: "0 Seconds",
+      perSingleTransaction: 1,
+      perTimeInterval: 1,
+      timeInterval: 259200000,
+      timeDescription: "3 Days",
     },
   },
   "Radio": {
@@ -271,7 +271,7 @@ const ITEM_DEFINITIONS = {
       timeDescription: "3 Weeks",
     },
   },
-  "Repair": {
+  "Repair": { // Repair is how repaired and refilled gear are tracked, e.g. armor repair, fire extinguisher refill, etc.
     acceptableNumbers: {
       perSingleTransaction: 4,
       perTimeInterval: 4,
@@ -288,6 +288,14 @@ const ITEM_DEFINITIONS = {
     },
   },
   "SAMS Boots": {
+    acceptableNumbers: {
+      perSingleTransaction: 1,
+      perTimeInterval: 1,
+      timeInterval: 1814400000,
+      timeDescription: "3 Weeks",
+    },
+  },
+  "SAMS Coat": {
     acceptableNumbers: {
       perSingleTransaction: 1,
       perTimeInterval: 1,
@@ -320,6 +328,14 @@ const ITEM_DEFINITIONS = {
     },
   },
   "SAMS Scrub Top": {
+    acceptableNumbers: {
+      perSingleTransaction: 1,
+      perTimeInterval: 1,
+      timeInterval: 1814400000,
+      timeDescription: "3 Weeks",
+    },
+  },
+  "SAMS Shirt": {
     acceptableNumbers: {
       perSingleTransaction: 1,
       perTimeInterval: 1,
@@ -439,6 +455,22 @@ const ITEM_DEFINITIONS = {
       timeDescription: "3 Weeks",
     },
   },
+  "Taser": {
+    acceptableNumbers: {
+      perSingleTransaction: 0,
+      perTimeInterval: 0,
+      timeInterval: 0,
+      timeDescription: "0 Seconds",
+    },
+  },
+  "Taser Cartridge": {
+    acceptableNumbers: {
+      perSingleTransaction: 0,
+      perTimeInterval: 0,
+      timeInterval: 0,
+      timeDescription: "0 Seconds",
+    },
+  },
   "Tight Nurses Dress": {
     acceptableNumbers: {
       perSingleTransaction: 1,
@@ -485,6 +517,19 @@ function itemsCheckForNewItemDefinitions () {
       console.log("new default item definition found >", ITEM_DEFINITIONS[itemName]);
       const newItem = JSON.parse(JSON.stringify(ITEM_DEFINITIONS[itemName]));
       itemsStoreDefinitions(itemName, newItem);
+    }
+  }
+}
+
+function itemsCheckForMissingItemDefinitions() {
+  for (const itemName of Object.keys(itemsByName)) {
+    console.log(itemName);
+    // check if item has no item definition
+    if (!ITEM_DEFINITIONS[itemName]) {
+      handleError(
+        new Error(`Item "${itemName}" does not have a definition in ITEM_DEFINITIONS.`),
+        `${itemName} is unable to be audited. See console for details.`
+      );
     }
   }
 }
