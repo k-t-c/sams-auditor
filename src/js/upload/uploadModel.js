@@ -130,10 +130,11 @@ function uploadParseRow(row) {
     initiator.addSalary(transaction);
   }
 
-  // handle item
-
+  // additional processing for arsenal purchases
   if (row.doneBy === "Arsenal Purchase") {
     let itemName = transaction.itemName;
+    
+    // store item in itemsByName global obj
     if (!itemsByName[itemName]) {
       item = new Item(itemName);
       item.add(transaction);

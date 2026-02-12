@@ -157,6 +157,15 @@ function limitsResetItemToDefault(itemName) {
 
 function limitsItemIsDefault(itemName) {
   item = itemDefinitions[itemName].acceptableNumbers;
+  if (!ITEM_DEFINITIONS[itemName]) {
+    /* 
+    This still leads to a bug because it allows for the creation of a reset to default button
+    when there isn't a default item definition in ITEM_DEFINITIONS. Will cause an error on
+    clicking the button. Need to fix
+    */
+    handleError(`No default item definition found for ${itemName}`, `No default item definition found for ${itemName}`);
+    return false;
+  }
   itemDefault = ITEM_DEFINITIONS[itemName].acceptableNumbers;
   for (const property of Object.keys(item)) {
     if (item.hasOwnProperty(property)){
