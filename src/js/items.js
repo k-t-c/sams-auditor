@@ -383,6 +383,14 @@ const ITEM_DEFINITIONS = {
       timeDescription: "3 Weeks",
     },
   },
+  "Light Green SAMS Stehoscope": {
+    acceptableNumbers: {
+      perSingleTransaction: 1,
+      perTimeInterval: 1,
+      timeInterval: 1814400000,
+      timeDescription: "3 Weeks",
+    },
+  },
   "Light Pink SAMS Medical Mask": {
     acceptableNumbers: {
       perSingleTransaction: 1,
@@ -573,6 +581,22 @@ const ITEM_DEFINITIONS = {
       perTimeInterval: 4,
       timeInterval: 300000,
       timeDescription: "5 Minutes",
+    },
+  },
+  "Retro Red SAMS Scrub Top": {
+    acceptableNumbers: {
+      perSingleTransaction: 1,
+      perTimeInterval: 1,
+      timeInterval: 1814400000,
+      timeDescription: "3 Weeks",
+    },
+  },
+  "Retro Red SAMS Scrub Pants": {
+    acceptableNumbers: {
+      perSingleTransaction: 1,
+      perTimeInterval: 1,
+      timeInterval: 1814400000,
+      timeDescription: "3 Weeks",
     },
   },
   "Retro Pink SAMS Scrub Top": {
