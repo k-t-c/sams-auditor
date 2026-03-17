@@ -1,4 +1,4 @@
-const APP_VERSION = "1.1.2";
+const APP_VERSION = "1.1.6";
 
 function isInt(value) {
   const x = parseFloat(value);
@@ -49,7 +49,7 @@ function showMessage(msg = "") {
 
 function handleError (error = null, msgForUser = "An error has occurred. See console for details.") {
   console.error(error);
-  console.trace(error);
+  // console.trace(error);
   showMessage(msgForUser);
 }
 
