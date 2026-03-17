@@ -23,12 +23,36 @@ const ITEM_DEFINITIONS = {
       timeDescription: "0 Seconds",
     },
   },
+  "Antiseptic Bandage": {
+    acceptableNumbers: {
+      perSingleTransaction: 0,
+      perTimeInterval: 0,
+      timeInterval: 0,
+      timeDescription: "0 Seconds",
+    },
+  },
   "Binder": {
     acceptableNumbers: {
       perSingleTransaction: 5,
       perTimeInterval: 5,
       timeInterval: 300000,
       timeDescription: "5 Minutes",
+    },
+  },
+  "Black SAMS Scrub Top": {
+    acceptableNumbers: {
+      perSingleTransaction: 1,
+      perTimeInterval: 1,
+      timeInterval: 1814400000,
+      timeDescription: "3 Weeks",
+    },
+  },
+  "Black SAMS Scrub Pants": {
+    acceptableNumbers: {
+      perSingleTransaction: 1,
+      perTimeInterval: 1,
+      timeInterval: 1814400000,
+      timeDescription: "3 Weeks",
     },
   },
   "Black SAMS Stethoscope": {
@@ -71,6 +95,14 @@ const ITEM_DEFINITIONS = {
       timeDescription: "5 Minutes",
     },
   },
+  "Blue SAMS Stethoscope": {
+    acceptableNumbers: {
+      perSingleTransaction: 1,
+      perTimeInterval: 1,
+      timeInterval: 1814400000,
+      timeDescription: "3 Weeks",
+    },
+  },
   "Car Battery": {
     acceptableNumbers: {
       perSingleTransaction: 0,
@@ -111,6 +143,30 @@ const ITEM_DEFINITIONS = {
       timeDescription: "1 Hours",
     },
   },
+  "Clouds SAMS Scrub Top": {
+    acceptableNumbers: {
+      perSingleTransaction: 1,
+      perTimeInterval: 1,
+      timeInterval: 1814400000,
+      timeDescription: "3 Weeks",
+    },
+  },
+  "Clouds SAMS Scrub Pants": {
+    acceptableNumbers: {
+      perSingleTransaction: 1,
+      perTimeInterval: 1,
+      timeInterval: 1814400000,
+      timeDescription: "3 Weeks",
+    },
+  },
+  "Cotton Bandage": {
+    acceptableNumbers: {
+      perSingleTransaction: 0,
+      perTimeInterval: 0,
+      timeInterval: 0,
+      timeDescription: "0 Seconds",
+    },
+  },
   "Deep Blue SAMS Scrub Top": {
     acceptableNumbers: {
       perSingleTransaction: 1,
@@ -120,6 +176,14 @@ const ITEM_DEFINITIONS = {
     },
   },
   "Deep Blue SAMS Scrub Pants": {
+    acceptableNumbers: {
+      perSingleTransaction: 1,
+      perTimeInterval: 1,
+      timeInterval: 1814400000,
+      timeDescription: "3 Weeks",
+    },
+  },
+  "Doctor's Coat": {
     acceptableNumbers: {
       perSingleTransaction: 1,
       perTimeInterval: 1,
@@ -271,6 +335,22 @@ const ITEM_DEFINITIONS = {
       timeDescription: "5 Minutes",
     },
   },
+  "Indigo SAMS Scrub Top": {
+    acceptableNumbers: {
+      perSingleTransaction: 1,
+      perTimeInterval: 1,
+      timeInterval: 1814400000,
+      timeDescription: "3 Weeks",
+    },
+  },
+  "Indigo SAMS Scrub Pants": {
+    acceptableNumbers: {
+      perSingleTransaction: 1,
+      perTimeInterval: 1,
+      timeInterval: 1814400000,
+      timeDescription: "3 Weeks",
+    },
+  },
   "Lil Dude Guys SAMS Scrub Top": {
     acceptableNumbers: {
       perSingleTransaction: 1,
@@ -280,6 +360,14 @@ const ITEM_DEFINITIONS = {
     },
   },
   "Lil Dude Guys SAMS Scrub Pants": {
+    acceptableNumbers: {
+      perSingleTransaction: 1,
+      perTimeInterval: 1,
+      timeInterval: 1814400000,
+      timeDescription: "3 Weeks",
+    },
+  },
+  "Light Blue SAMS Medical Mask": {
     acceptableNumbers: {
       perSingleTransaction: 1,
       perTimeInterval: 1,
@@ -304,6 +392,14 @@ const ITEM_DEFINITIONS = {
     },
   },
   "Light Pink SAMS Stethoscope": {
+    acceptableNumbers: {
+      perSingleTransaction: 1,
+      perTimeInterval: 1,
+      timeInterval: 1814400000,
+      timeDescription: "3 Weeks",
+    },
+  },
+  "Light Purple SAMS Medical Mask": {
     acceptableNumbers: {
       perSingleTransaction: 1,
       perTimeInterval: 1,
@@ -383,6 +479,30 @@ const ITEM_DEFINITIONS = {
       timeDescription: "3 Weeks",
     },
   },
+  "Pink SAMS Scrub Pants": {
+    acceptableNumbers: {
+      perSingleTransaction: 1,
+      perTimeInterval: 1,
+      timeInterval: 1814400000,
+      timeDescription: "3 Weeks",
+    },
+  },
+  "Pink SAMS Stethoscope": {
+    acceptableNumbers: {
+      perSingleTransaction: 1,
+      perTimeInterval: 1,
+      timeInterval: 1814400000,
+      timeDescription: "3 Weeks",
+    },
+  },
+  "Purple SAMS Medical Mask": {
+    acceptableNumbers: {
+      perSingleTransaction: 1,
+      perTimeInterval: 1,
+      timeInterval: 1814400000,
+      timeDescription: "3 Weeks",
+    },
+  },
   "Prepaid Fuel Card": {
     acceptableNumbers: {
       perSingleTransaction: 1,
@@ -407,6 +527,14 @@ const ITEM_DEFINITIONS = {
       timeDescription: "3 Weeks",
     },
   },
+  "Rainbow v2 SAMS Stethoscope": {
+    acceptableNumbers: {
+      perSingleTransaction: 1,
+      perTimeInterval: 1,
+      timeInterval: 1814400000,
+      timeDescription: "3 Weeks",
+    },
+  },
   "Red & Black SAMS Scrub Top": {
     acceptableNumbers: {
       perSingleTransaction: 1,
@@ -416,6 +544,14 @@ const ITEM_DEFINITIONS = {
     },
   },
   "Red & Black SAMS Scrub Pants": {
+    acceptableNumbers: {
+      perSingleTransaction: 1,
+      perTimeInterval: 1,
+      timeInterval: 1814400000,
+      timeDescription: "3 Weeks",
+    },
+  },
+  "Red SAMS Stethoscope": {
     acceptableNumbers: {
       perSingleTransaction: 1,
       perTimeInterval: 1,
@@ -455,6 +591,22 @@ const ITEM_DEFINITIONS = {
       timeDescription: "3 Weeks",
     },
   },
+  "Rose SAMS Scrub Top": {
+    acceptableNumbers: {
+      perSingleTransaction: 1,
+      perTimeInterval: 1,
+      timeInterval: 1814400000,
+      timeDescription: "3 Weeks",
+    },
+  },
+  "Rose SAMS Scrub Pants": {
+    acceptableNumbers: {
+      perSingleTransaction: 1,
+      perTimeInterval: 1,
+      timeInterval: 1814400000,
+      timeDescription: "3 Weeks",
+    },
+  },
   "SAMS Belt": {
     acceptableNumbers: {
       perSingleTransaction: 1,
@@ -464,6 +616,14 @@ const ITEM_DEFINITIONS = {
     },
   },
   "SAMS Boots": {
+    acceptableNumbers: {
+      perSingleTransaction: 1,
+      perTimeInterval: 1,
+      timeInterval: 1814400000,
+      timeDescription: "3 Weeks",
+    },
+  },
+  "SAMS Cap": {
     acceptableNumbers: {
       perSingleTransaction: 1,
       perTimeInterval: 1,
@@ -488,6 +648,14 @@ const ITEM_DEFINITIONS = {
     },
   },
   "SAMS Pants": {
+    acceptableNumbers: {
+      perSingleTransaction: 1,
+      perTimeInterval: 1,
+      timeInterval: 1814400000,
+      timeDescription: "3 Weeks",
+    },
+  },
+  "SAMS Polo": {
     acceptableNumbers: {
       perSingleTransaction: 1,
       perTimeInterval: 1,
@@ -557,6 +725,14 @@ const ITEM_DEFINITIONS = {
       perTimeInterval: 1,
       timeInterval: 300000,
       timeDescription: "5 Minutes",
+    },
+  },
+  "Scuba Gear": {
+    acceptableNumbers: {
+      perSingleTransaction: 1,
+      perTimeInterval: 1,
+      timeInterval: 1814400000,
+      timeDescription: "3 Weeks",
     },
   },
   "Seatbelt Set": {
@@ -632,6 +808,14 @@ const ITEM_DEFINITIONS = {
     },
   },
   "TacMed Pants": {
+    acceptableNumbers: {
+      perSingleTransaction: 1,
+      perTimeInterval: 1,
+      timeInterval: 1814400000,
+      timeDescription: "3 Weeks",
+    },
+  },
+  "TacMed Shirt": {
     acceptableNumbers: {
       perSingleTransaction: 1,
       perTimeInterval: 1,
@@ -744,6 +928,14 @@ const ITEM_DEFINITIONS = {
     },
   },
   "Traffic Cone": {
+    acceptableNumbers: {
+      perSingleTransaction: 0,
+      perTimeInterval: 0,
+      timeInterval: 0,
+      timeDescription: "0 Seconds",
+    },
+  },
+  "Trauma Bandage": {
     acceptableNumbers: {
       perSingleTransaction: 0,
       perTimeInterval: 0,
