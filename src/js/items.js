@@ -985,6 +985,25 @@ const ITEM_DEFINITIONS = {
   },
 };
 
+function getItemDefinitions() {
+  return (
+    JSON.parse(localStorage.getItem("itemDefinitions")) ||
+    JSON.parse(JSON.stringify(ITEM_DEFINITIONS))
+  );
+}
+
+function setItemDefinitions (itemDefsToSet = null) {
+  try {
+    if (!itemDefsToSet) {
+      itemDefsToSet = window.itemDefinitions;
+    }
+    window.itemDefinitions = itemDefsToSet;
+    localStorage.setItem("itemDefinitions", JSON.stringify(itemDefsToSet));
+  } catch (error) {
+    handleError(error, "Error setting item definitions. See console for details.");
+  }
+}
+
 function itemsStoreDefinitions (itemName = null, newItem = null) {
   if(window.itemDefinitions) {
     try {
@@ -1001,6 +1020,7 @@ function itemsStoreDefinitions (itemName = null, newItem = null) {
 function itemsCheckForNewItemDefinitions () {
   let currentItemDefinitions = getItemDefinitions();
   for (const itemName of Object.keys(ITEM_DEFINITIONS)) {
+    // check for new item definitions
     if (!currentItemDefinitions[itemName]) {
       console.log("new default item definition found >", ITEM_DEFINITIONS[itemName]);
       const newItem = JSON.parse(JSON.stringify(ITEM_DEFINITIONS[itemName]));
@@ -1009,17 +1029,32 @@ function itemsCheckForNewItemDefinitions () {
   }
 }
 
-function itemsCheckForMissingItemDefinitions() {
+function itemsProcessItemDefinitions() {
+  let currentItemDefinitions = getItemDefinitions();
   for (const itemName of Object.keys(itemsByName)) {
     console.log(itemName);
-    // check if item has no item definition
-    if (!ITEM_DEFINITIONS[itemName]) {
-      handleError(
-        new Error(`Item "${itemName}" does not have a definition in ITEM_DEFINITIONS.`),
-        `${itemName} is unable to be audited. See console for details.`
-      );
+    // check if item has no default item definition
+    if (!ITEM_DEFINITIONS[itemName] && !currentItemDefinitions[itemName]) {
+      // there's no default definition. create it
+      currentItemDefinitions[itemName] = {
+        acceptableNumbers: {
+          perSingleTransaction: 0,
+          perTimeInterval: 0,
+          timeInterval: 0,
+          timeDescription: "0 Seconds",
+        },
+        hasDefaultDefinition: false
+      };
+      showMessage(`New item found: ${itemName}. Please set limits for ${itemName} in the Item Limits tab.`, 5000);
+    } else if (!ITEM_DEFINITIONS[itemName]) {
+      currentItemDefinitions[itemName].hasDefaultDefinition = false;
+    } else {
+      // it has a default definition. mark it
+      currentItemDefinitions[itemName].hasDefaultDefinition = true;
     }
   }
+  // done processing the current item definitions. store them.
+  setItemDefinitions(currentItemDefinitions);
 }
 
 /**
@@ -1050,3 +1085,5 @@ function itemsGetCustomSortedItemsNames() {
     handleError(error, "An error occurred. See console for details.");
   }
 }
+
+window.itemDefinitions = getItemDefinitions();

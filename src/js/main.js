@@ -1,4 +1,4 @@
-const APP_VERSION = "1.1.6";
+const APP_VERSION = "1.1.7";
 
 function isInt(value) {
   const x = parseFloat(value);
@@ -18,7 +18,7 @@ function wrapSpan(txt) {
   return returnSpan;
 }
 
-function showMessage(msg = "") {
+function showMessage(msg = "", msgTimeout = 2000) {
   if (msg && typeof msg === "string") {
     const container = document.getElementById("toastContainer");
     const toast = document.createElement("div");
@@ -41,15 +41,21 @@ function showMessage(msg = "") {
       setTimeout(() => {
         container.removeChild(toast);
       }, 400);
-    }, 2000);
+    }, msgTimeout);
   } else {
     handleError();
   }
 }
 
+/**
+ * @param {null} [error=null] Accepts an instance of Error or a string
+ * @param {string} [msgForUser="An error has occurred. See console for details."] Pass a string to show to the user on the front end in a toast.
+ * @description Handles caught errors.
+ * */ 
+
+
 function handleError (error = null, msgForUser = "An error has occurred. See console for details.") {
   console.error(error);
-  // console.trace(error);
   showMessage(msgForUser);
 }
 

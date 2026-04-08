@@ -151,19 +151,34 @@ function limitsResetAllToDefault() {
 }
 
 function limitsResetItemToDefault(itemName) {
-  window.itemDefinitions[itemName] = JSON.parse(JSON.stringify(ITEM_DEFINITIONS[itemName]));
+  if (window.itemDefinitions[itemName]?.hasDefaultDefinition) {
+    window.itemDefinitions[itemName] = JSON.parse(JSON.stringify(ITEM_DEFINITIONS[itemName]));
+  } else {
+    window.itemDefinitions[itemName] = {
+        acceptableNumbers: {
+          perSingleTransaction: 0,
+          perTimeInterval: 0,
+          timeInterval: 0,
+          timeDescription: "0 Seconds",
+        },
+        hasDefaultDefinition: false
+      };
+  }
   limitsUpdated();
 }
 
 function limitsItemIsDefault(itemName) {
   item = itemDefinitions[itemName].acceptableNumbers;
   if (!ITEM_DEFINITIONS[itemName]) {
-    /* 
-    This still leads to a bug because it allows for the creation of a reset to default button
-    when there isn't a default item definition in ITEM_DEFINITIONS. Will cause an error on
-    clicking the button. Need to fix
-    */
-    handleError(`No default item definition found for ${itemName}`, `No default item definition found for ${itemName}`);
+    if (item.perSingleTransaction === 0 &&
+        item.perTimeInterval === 0 &&
+        item.timeInterval === 0 &&
+        item.timeDescription === "0 Seconds"
+    ) {
+      return true;
+    }
+    // notification should no longer be needed now that we are setting a default definition if none exists
+    // handleError(`No default item definition found for ${itemName}`, `No default item definition found for ${itemName}`);
     return false;
   }
   itemDefault = ITEM_DEFINITIONS[itemName].acceptableNumbers;
@@ -176,12 +191,3 @@ function limitsItemIsDefault(itemName) {
   }
   return true;
 }
-
-function getItemDefinitions() {
-  return (
-    JSON.parse(localStorage.getItem("itemDefinitions")) ||
-    JSON.parse(JSON.stringify(ITEM_DEFINITIONS))
-  );
-}
-
-window.itemDefinitions = getItemDefinitions();

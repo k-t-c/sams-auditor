@@ -18,7 +18,7 @@ function limitsUpdated() {
   localStorage.setItem("itemDefinitions", JSON.stringify(window.itemDefinitions));
   limitsRenderItems();
   reportViolations();
-  showMessage("Limits Updated");
+  showMessage("Limits Updated", 2000);
 }
 
 function limitsValidateInput(newValue, inputType) {
