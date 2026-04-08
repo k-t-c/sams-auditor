@@ -18,10 +18,10 @@ function uploadDataReady() {
     `
   );
   arsenalDataReady();
-  limitsDataReady();
   
   uploadProcessExtractedData();
-  itemsCheckForMissingItemDefinitions();
+  itemsProcessItemDefinitions();
+  limitsDataReady();
   arsenalProcessSelection();
   reportViolations();
   
